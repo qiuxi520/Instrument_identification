@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Widget</class>
+ <widget class="QWidget" name="Widget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1280</width>
+    <height>720</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Widget</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QGroupBox" name="groupBox_1">
+     <property name="title">
+      <string>①原图</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_53">
+      <item row="0" column="0">
+       <widget class="PixelViewerWidget" name="pixelViewer_original" native="true"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>②透视变换</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_64">
+      <item row="0" column="0">
+       <widget class="PixelViewerWidget" name="pixelViewer_PTtransform" native="true"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="2">
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="title">
+      <string>③灰度</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_49">
+      <item row="0" column="0">
+       <widget class="PixelViewerWidget" name="pixelViewer_gray" native="true"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="3" rowspan="3">
+    <widget class="QGroupBox" name="groupBox_panel">
+     <property name="styleSheet">
+      <string notr="true">   QWidget#groupBox_panel {
+background-color: rgba(240, 240, 240, 240);
+
+
+}</string>
+     </property>
+     <property name="title">
+      <string>控制面板</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_56">
+      <item row="2" column="0" colspan="2">
+       <widget class="QGroupBox" name="groupBox_ParaEdge">
+        <property name="title">
+         <string>边缘检测参数</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_58" columnstretch="2,1,4">
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_45">
+           <property name="text">
+            <string>Threshold2：</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="led_Threshold2"/>
+         </item>
+         <item row="1" column="2">
+          <widget class="QSlider" name="sld_Threshold2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_46">
+           <property name="text">
+            <string>Threshold1：</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="led_Threshold1"/>
+         </item>
+         <item row="0" column="2">
+          <widget class="QSlider" name="sld_Threshold1">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="2">
+       <widget class="QGroupBox" name="groupBox_ParaPT">
+        <property name="title">
+         <string>透视变换参数</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_60">
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>调整步长：</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QSlider" name="sld_step">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" colspan="2">
+          <widget class="QGroupBox" name="groupBox_37">
+           <property name="title">
+            <string>输出</string>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_62" columnstretch="1,3">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_55">
+              <property name="text">
+               <string>width：</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QSpinBox" name="sb_outPutWidth"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_56">
+              <property name="text">
+               <string>height：</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QSpinBox" name="sb_outPutHeight"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item row="0" column="0" colspan="2">
+          <widget class="QGroupBox" name="groupBox_36">
+           <property name="title">
+            <string>输入</string>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_61" columnstretch="1,2,2,2,2">
+            <item row="0" column="2">
+             <widget class="QLabel" name="label_49">
+              <property name="text">
+               <string>Point2</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="3">
+             <widget class="QLabel" name="label_50">
+              <property name="text">
+               <string>Point3</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="4">
+             <widget class="QLabel" name="label_51">
+              <property name="text">
+               <string>Point4</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_52">
+              <property name="text">
+               <string>x</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QSpinBox" name="sb_Point1x"/>
+            </item>
+            <item row="1" column="2">
+             <widget class="QSpinBox" name="sb_Point2x"/>
+            </item>
+            <item row="1" column="3">
+             <widget class="QSpinBox" name="sb_Point3x"/>
+            </item>
+            <item row="1" column="4">
+             <widget class="QSpinBox" name="sb_Point4x"/>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_53">
+              <property name="text">
+               <string>y</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QSpinBox" name="sb_Point1y"/>
+            </item>
+            <item row="2" column="2">
+             <widget class="QSpinBox" name="sb_Point2y"/>
+            </item>
+            <item row="2" column="3">
+             <widget class="QSpinBox" name="sb_Point3y"/>
+            </item>
+            <item row="2" column="4">
+             <widget class="QSpinBox" name="sb_Point4y"/>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLabel" name="label_54">
+              <property name="text">
+               <string>Point1</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="2">
+       <widget class="QGroupBox" name="groupBox_ParaCricle">
+        <property name="title">
+         <string>霍夫圆检测参数</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_59" rowstretch="0,0" columnstretch="1,5">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_47">
+           <property name="text">
+            <string>minRadius：</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_48">
+           <property name="text">
+            <string>maxRadius：</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QSpinBox" name="sb_minRadius"/>
+         </item>
+         <item row="1" column="1">
+          <widget class="QSpinBox" name="sb_maxRadius"/>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="4" column="0" colspan="2">
+       <widget class="QGroupBox" name="groupBox_ParaLine">
+        <property name="title">
+         <string>霍夫直线检测参数</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_3" columnstretch="1,5">
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>minLineLength：</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>maxLineGap：</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>rho：</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QSpinBox" name="sb_maxLineGap"/>
+         </item>
+         <item row="3" column="1">
+          <widget class="QSpinBox" name="sb_minLineLength"/>
+         </item>
+         <item row="1" column="1">
+          <widget class="QDoubleSpinBox" name="dsb_theta"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_8">
+           <property name="text">
+            <string>theta：</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_9">
+           <property name="text">
+            <string>threshold：</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QSpinBox" name="sb_threshold"/>
+         </item>
+         <item row="0" column="1">
+          <widget class="QSpinBox" name="sb_rho"/>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="6" column="0" colspan="2">
+       <widget class="QGroupBox" name="groupBox_ParaAnsys">
+        <property name="title">
+         <string>仪表分析参数</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_2">
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>最大量程：</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QSpinBox" name="sb_maxValue"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>最小量程：</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QSpinBox" name="sb_minValue"/>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>读数：</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="led_Display"/>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QGroupBox" name="groupBox_ParaGauss">
+        <property name="title">
+         <string>高斯去噪参数</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_57">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_43">
+           <property name="text">
+            <string>simgaX：</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QDoubleSpinBox" name="dsb_simgaX"/>
+         </item>
+         <item row="0" column="3">
+          <widget class="QDoubleSpinBox" name="dsb_simgaY"/>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="label_44">
+           <property name="text">
+            <string>simgaY：</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="7" column="0" colspan="2">
+       <widget class="QPushButton" name="btn_openPic">
+        <property name="text">
+         <string>打开图像</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QGroupBox" name="groupBox_4">
+     <property name="title">
+      <string>④高斯去噪</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_51">
+      <item row="0" column="0">
+       <widget class="PixelViewerWidget" name="pixelViewer_Gauss" native="true"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QGroupBox" name="groupBox_5">
+     <property name="title">
+      <string>⑤边缘检测</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_50">
+      <item row="0" column="0" colspan="2">
+       <widget class="PixelViewerWidget" name="pixelViewer_edge" native="true"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <widget class="QGroupBox" name="groupBox_6">
+     <property name="title">
+      <string>⑥霍夫圆检测</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_52">
+      <item row="0" column="0" colspan="2">
+       <widget class="PixelViewerWidget" name="pixelViewer_cricle" native="true"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QGroupBox" name="groupBox_7">
+     <property name="title">
+      <string>⑦霍夫直线检测</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_54">
+      <item row="0" column="0" colspan="2">
+       <widget class="PixelViewerWidget" name="pixelViewer_line" native="true"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QGroupBox" name="groupBox_8">
+     <property name="title">
+      <string>⑧</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_63">
+      <item row="0" column="0" colspan="2">
+       <widget class="PixelViewerWidget" name="pixelViewer_2" native="true"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="2">
+    <widget class="QGroupBox" name="groupBox_9">
+     <property name="title">
+      <string>⑨</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_55">
+      <item row="0" column="0" colspan="2">
+       <widget class="PixelViewerWidget" name="pixelViewer_3" native="true"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PixelViewerWidget</class>
+   <extends>QWidget</extends>
+   <header>pixelviewerwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
