@@ -3,7 +3,6 @@ QT       += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
-
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -32,8 +31,8 @@ FORMS += \
     widget.ui
 
 
-INCLUDEPATH += D:\opencv_lib\include
-LIBS += D:\opencv_lib\lib\libopencv_*.a
+INCLUDEPATH += D:/opencv_lib/include
+LIBS += D:/opencv_lib/lib/libopencv_*.a
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

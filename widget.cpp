@@ -142,7 +142,7 @@ void Widget::onErrorOccurred(const QString &errorMessage)
 // 打开图像
 void Widget::on_btn_openPic_clicked()
 {
-    QString fileDir = "..\\..\\pic";
+    QString fileDir = "..\\..\\..\\pic";
     QString fileName = QFileDialog::getOpenFileName(this, "打开图像", fileDir,"图像文件 (*.png *.jpg *.jpeg *.bmp *.tiff *.tif)");
 
     if (!fileName.isEmpty())
