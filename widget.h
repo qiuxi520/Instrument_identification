@@ -25,6 +25,12 @@ private slots:
     void onProcessingCompleted();
     void onErrorOccurred(const QString &errorMessage);
 
+    // ROI参数槽函数
+    void on_sb_ROIx_valueChanged(int arg1);
+    void on_sb_ROIy_valueChanged(int arg1);
+    void on_sb_ROIwidth_valueChanged(int arg1);
+    void on_sb_ROIheight_valueChanged(int arg1);
+
     // 透视变换参数槽函数
     void on_sb_Point1x_valueChanged(int arg1);
     void on_sb_Point1y_valueChanged(int arg1);
@@ -50,22 +56,35 @@ private slots:
     void on_sb_minRadius_valueChanged(int arg1);
     void on_sb_maxRadius_valueChanged(int arg1);
 
-    void on_sb_minLineLength_valueChanged(int arg1);
-    void on_sb_maxLineGap_valueChanged(int arg1);
+    // 掩膜参数槽函数
+    void on_sb_mask_valueChanged(int arg1);
 
+    // 二值化参数槽函数
+    void on_dsb_globalThreshold_valueChanged(double arg1);
+    void on_dsb_globalmaxValue_valueChanged(double arg1);
 
+    // 形态学参数槽函数
+    void on_sb_openKernelSize_valueChanged(int arg1);
+    void on_sb_closeKernelSize_valueChanged(int arg1);
+    void on_sb_morphologyIterations_valueChanged(int arg1);
 
-    void on_sb_rho_valueChanged(int arg1);
+    // 腐蚀参数槽函数
+    void on_sb_kernelSize_valueChanged(int arg1);
+    void on_sb_erosionIterations_valueChanged(int arg1);
 
+    // 霍夫直线检测参数槽函数
+    void on_dsb_rho_valueChanged(double arg1);
     void on_dsb_theta_valueChanged(double arg1);
-
     void on_sb_threshold_valueChanged(int arg1);
+    void on_dsb_minLineLength_valueChanged(double arg1);
+    void on_dsb_maxLineGap_valueChanged(double arg1);
 
-
-
+    // 仪表参数槽函数
+    void on_sb_MinValueAngle_valueChanged(int arg1);
+    void on_sb_MaxValueAngle_valueChanged(int arg1);
     void on_sb_minValue_valueChanged(int arg1);
-
     void on_sb_maxValue_valueChanged(int arg1);
+
 
 private:
     void initializeUI();

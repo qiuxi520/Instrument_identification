@@ -46,24 +46,56 @@ void ImageProcessor::processAll()
         return;
     }
 
+    ROISegmentation();
     applyPerspectiveTransform();
     convertToGray();
     applyGaussianBlur();
     detectEdges();
     detectCircles();
+    maskROI();
+    globalThreshold();
+    Erosion();
+    morphologyOperation();
     detectLines();
     analyzeGauge();
+    Result();
 
     emit processingCompleted();
 }
 
+// --------------------提取ROI--------------------
+void ImageProcessor::ROISegmentation()
+{
+    if (m_originalImage.empty()){return;}
+
+    // 检查ROI参数是否在有效范围内
+    if (m_ROIx < 0 || m_ROIy < 0 || m_ROIwidth <= 0 || m_ROIheight <= 0){return;}
+    if (m_ROIx + m_ROIwidth > m_originalImage.cols || m_ROIy + m_ROIheight > m_originalImage.rows){return;}
+
+    // 提取ROI区域
+    cv::Rect roiRect(m_ROIx, m_ROIy, m_ROIwidth, m_ROIheight);
+    m_ROIsegmentationImage=m_originalImage(roiRect);
+
+    m_originalWithROIImage=m_originalImage.clone();
+    // 绘制矩形框（BGR颜色格式）
+    cv::rectangle(m_originalWithROIImage, roiRect, cv::Scalar(0, 255, 0), 10); // 绿色，线宽2像素
+
+}
+void ImageProcessor::setROIParams(int x,int y,int width,int height)
+{
+    m_ROIx=x;
+    m_ROIy=y;
+    m_ROIwidth=width;
+    m_ROIheight=height;
+
+    processAll();
+}
+
+
 // --------------------透视变换--------------------
 void ImageProcessor::applyPerspectiveTransform()
 {
-    if (m_originalImage.empty())
-    {
-        return;
-    }
+    if (m_ROIsegmentationImage.empty()){return;}
 
     // 计算透视变换矩阵
     std::vector<cv::Point2f> dstPoints = {
@@ -72,40 +104,46 @@ void ImageProcessor::applyPerspectiveTransform()
         cv::Point2f(m_outputWidth - 1, m_outputHeight - 1),
         cv::Point2f(0, m_outputHeight - 1)
     };
-
     cv::Mat transformMatrix = cv::getPerspectiveTransform(m_sourcePoints, dstPoints);
-    cv::warpPerspective(m_originalImage, m_perspectiveTransformResult,
-                        transformMatrix, cv::Size(m_outputWidth, m_outputHeight));
+    cv::warpPerspective(m_ROIsegmentationImage, m_perspectiveTransformResult,transformMatrix, cv::Size(m_outputWidth, m_outputHeight));
+
+    // 带透视变换区域标记的图像
+    PTransformRangeImage = m_ROIsegmentationImage.clone();
+
+    // 绘制透视变换区域
+    std::vector<cv::Point> intPoints;
+    for (const auto& pt : m_sourcePoints) //将坐标转换为整数坐标
+    {
+        intPoints.push_back(cv::Point(static_cast<int>(pt.x), static_cast<int>(pt.y)));
+    }
+    for (size_t i = 0; i < intPoints.size(); ++i) //绘制边界
+    {
+        cv::line(PTransformRangeImage, intPoints[i], intPoints[(i + 1) % intPoints.size()],cv::Scalar(0, 255, 0), 2);
+    }
+    for (const auto& pt : intPoints) //绘制角点
+    {
+        cv::circle(PTransformRangeImage, pt, 5, cv::Scalar(255, 0, 0), -1);
+    }
 }
 void ImageProcessor::setPerspectivePoints(const std::vector<cv::Point2f> &points)
 {
     if (points.size() == 4)
     {
         m_sourcePoints = points;
-        if (!m_originalImage.empty())
-        {
-            processAll();
-        }
+        processAll();
     }
 }
 void ImageProcessor::setOutputSize(int width, int height)
 {
     m_outputWidth = width;
     m_outputHeight = height;
-    if (!m_originalImage.empty())
-    {
-        processAll();
-    }
+    processAll();
 }
-
 
 // --------------------高斯模糊--------------------
 void ImageProcessor::convertToGray()
 {
-    if (m_perspectiveTransformResult.empty())
-    {
-        return;
-    }
+    if (m_perspectiveTransformResult.empty()){return;}
 
     cv::cvtColor(m_perspectiveTransformResult, m_grayImage, cv::COLOR_BGR2GRAY);
 }
@@ -118,58 +156,35 @@ void ImageProcessor::applyGaussianBlur()
 
     cv::GaussianBlur(m_grayImage, m_blurredImage, cv::Size(9, 9), m_sigmaX, m_sigmaY);
 }
-
 void ImageProcessor::setGaussianSigma(double sigmaX, double sigmaY)
 {
     m_sigmaX = sigmaX;
     m_sigmaY = sigmaY;
-    if (!m_originalImage.empty())
-    {
-        applyGaussianBlur();
-        detectEdges();
-        detectCircles();
-        detectLines();
-        analyzeGauge();
 
-        emit processingCompleted();
-    }
+    processAll();
 }
 
 
 // --------------------边缘检测--------------------
 void ImageProcessor::detectEdges()
 {
-    if (m_blurredImage.empty())
-    {
-        return;
-    }
+    if (m_blurredImage.empty()){return;}
 
     cv::Canny(m_blurredImage, m_edgesImage, m_cannyThreshold1, m_cannyThreshold2);
 }
-
 void ImageProcessor::setCannyThresholds(int threshold1, int threshold2)
 {
     m_cannyThreshold1 = threshold1;
     m_cannyThreshold2 = threshold2;
-    if (!m_originalImage.empty())
-    {
-        detectEdges();
-        detectCircles();
-        detectLines();
-        analyzeGauge();
 
-        emit processingCompleted();
-    }
+    processAll();
 }
 
 
 // --------------------霍夫圆检测--------------------
 void ImageProcessor::detectCircles()
 {
-    if (m_edgesImage.empty())
-    {
-        return;
-    }
+    if (m_edgesImage.empty()){return;}
 
     std::vector<cv::Vec3f> circles;
     cv::HoughCircles(m_edgesImage, circles, cv::HOUGH_GRADIENT, 1,
@@ -177,59 +192,126 @@ void ImageProcessor::detectCircles()
 
     // 清空其他圆，只保留置信度最大的第一个
     if (!circles.empty()) {m_detectedCircle = circles[0];}
-    x = cvRound(m_detectedCircle[0]);
-    y = cvRound(m_detectedCircle[1]);
-    radius = cvRound(m_detectedCircle[2]);
+    m_circleCenterX = cvRound(m_detectedCircle[0]);
+    m_circleCenterY = cvRound(m_detectedCircle[1]);
+    m_circleCenter = cv::Point(m_circleCenterX,m_circleCenterY);
+    m_circleRadius = cvRound(m_detectedCircle[2]);
 
-    // 绘制检测到的圆并进行仪表分析
+    // 绘制检测到的圆
     m_circleImage = m_perspectiveTransformResult.clone();
-
-    cv::Point center(x, y);
-    cv::circle(m_circleImage, center, radius, cv::Scalar(0, 0, 255), 2); // 绘制圆周
-    cv::circle(m_circleImage, center, 3, cv::Scalar(0, 255, 0), -1); // 绘制圆心
+    cv::circle(m_circleImage, m_circleCenter, m_circleRadius, cv::Scalar(0, 0, 255), 3); // 绘制圆周
+    cv::circle(m_circleImage, m_circleCenter, 8, cv::Scalar(0, 255, 0), -1); // 绘制圆心
 }
-
 void ImageProcessor::setHoughCirclesParams(int minRadius, int maxRadius)
 {
     m_minRadius = minRadius;
     m_maxRadius = maxRadius;
-    if (!m_originalImage.empty())
-    {
-        detectCircles();
-        detectLines();
-        analyzeGauge();
 
-        emit processingCompleted();
+    processAll();
+}
+
+
+// --------------------创建仪表盘区域的掩膜--------------------
+void ImageProcessor::maskROI()
+{
+    if (m_blurredImage.empty()){return;}
+
+    // 每次重新创建掩码图像，确保清除之前的内容
+    m_maskROIImage = cv::Mat::zeros(m_blurredImage.size(), m_blurredImage.type());
+
+    // 创建圆形掩码
+    cv::Mat mask = cv::Mat::zeros(m_blurredImage.size(), CV_8UC1);
+    cv::circle(mask, m_circleCenter, m_maskRadius, cv::Scalar(255), -1); // -1表示填充
+
+    // 应用掩码
+    m_blurredImage.copyTo(m_maskROIImage, mask);
+}
+void ImageProcessor::setmaskROIParams(int maskRadius)
+{
+    m_maskRadius=maskRadius;
+
+    processAll();
+}
+
+
+// --------------------二值化--------------------
+void ImageProcessor::globalThreshold()
+{
+    if (m_maskROIImage.empty()){return;}
+
+    cv::threshold(m_maskROIImage, m_thresholdImage, m_globalThreshold, 255, cv::THRESH_BINARY);
+}
+void ImageProcessor::setGlobalThresholdParams(double threshold, double maxValue)
+{
+    m_globalThreshold=threshold;
+    m_maxValue=maxValue;
+
+    processAll();
+}
+
+
+// --------------------腐蚀--------------------
+void ImageProcessor::Erosion()
+{
+    if (m_thresholdImage.empty()){return;}
+
+    if (m_kernelSize <= 0 || m_kernelSize % 2 == 0)
+        m_kernelSize = 3; // 保证为正的奇数
+
+    // 创建核（结构元素）
+    m_kernel = cv::getStructuringElement(cv::MORPH_RECT,cv::Size(m_kernelSize, m_kernelSize));
+    cv::erode(m_thresholdImage, m_erosionResultImge, m_kernel, cv::Point(-1, -1), m_erosionIterations);
+}
+void ImageProcessor::setErosionParams(int kernelSize, int iterations)
+{
+    m_kernelSize=kernelSize;
+    m_erosionIterations=iterations;
+
+    processAll();
+}
+
+
+// --------------------形态学--------------------
+void ImageProcessor::morphologyOperation()
+{
+    if (m_erosionResultImge.empty()){return;}
+
+    cv::Mat result;
+    // 开运算去除小噪点
+    if (m_openKernelSize > 0)
+    {
+        cv::Mat openKernel = cv::getStructuringElement(m_kernelType,cv::Size(m_openKernelSize, m_openKernelSize));
+        cv::morphologyEx(m_erosionResultImge, result, cv::MORPH_OPEN, openKernel,cv::Point(-1, -1), m_morphologyIterations);
     }
+
+    // 闭运算连接断点
+    if (m_closeKernelSize > 0)
+    {
+        cv::Mat closeKernel = cv::getStructuringElement(m_kernelType,cv::Size(m_closeKernelSize, m_closeKernelSize));
+        cv::morphologyEx(result, m_morphologyResultImge, cv::MORPH_CLOSE, closeKernel,cv::Point(-1, -1), m_morphologyIterations);
+    }
+
+}
+void ImageProcessor::setMorphologyOperationParams(int openKernelSize, int closeKernelSize, int kernelType, int iterations)
+{
+    m_openKernelSize=openKernelSize;
+    m_closeKernelSize=closeKernelSize;
+    m_kernelType = cv::MORPH_RECT;
+    m_morphologyIterations=iterations;
+
+    processAll();
 }
 
 
 // --------------------霍夫直线检测--------------------
 void ImageProcessor::detectLines()
 {
-    if (m_edgesImage.empty())
-    {
-        return;
-    }
+    if (m_morphologyResultImge.empty()){return;}
 
-    // 创建ROI区域
-    cv::Rect roi(x - radius, y - radius, radius * 2, radius * 2);
-    roi = roi & cv::Rect(0, 0, m_edgesImage.cols, m_edgesImage.rows);
-    if (roi.width <= 0 || roi.height <= 0)
-    {
-        return;
-    }
+    lines.clear();
+    HoughLinesP(m_morphologyResultImge, lines, m_rho, CV_PI/180, m_theta, m_minLineLength, m_maxLineGap);
 
-    cv::Mat roiImage = m_edgesImage(roi).clone();
-
-    // 检测直线（指针）
-    // HoughLinesP(roiImage, lines, 1, CV_PI/180, 30, radius/2, radius/4);
-    HoughLinesP(roiImage, lines, 1, CV_PI/180, 30, m_minLineLength, m_maxLineGap);
-    // HoughLinesP(roiImage, lines, m_rho, m_theta, m_threshold, m_minLineLength, m_maxLineGap);
-    if (lines.empty())
-    {
-        return;
-    }
+    if (lines.empty()){m_lineImage=m_morphologyResultImge.clone();return;}
 
     // 找到最长的直线作为指针
     for (const auto& line : lines)
@@ -242,78 +324,61 @@ void ImageProcessor::detectLines()
         }
     }
 
-    m_lineImage=m_circleImage.clone();
+    m_lineImage = cv::Mat::zeros(m_lineImage.size(), m_lineImage.type());
 
-    cv::rectangle(m_lineImage, roi, cv::Scalar(255, 255, 0), 2);
-    // 绘制直线
-    // cv::Point pt1(m_detectedLine[0], m_detectedLine[1]);
-    // cv::Point pt2(m_detectedLine[2], m_detectedLine[3]);
+    m_lineImage=m_morphologyResultImge.clone();
+    // 将灰度图转换为三通道图像
+    if (m_lineImage.channels() == 1)
+        cv::cvtColor(m_lineImage, m_lineImage, cv::COLOR_GRAY2BGR);
 
-    // 绘制直线（注意坐标转换）
-    cv::Point pt1(m_detectedLine[0] + roi.x, m_detectedLine[1] + roi.y);
-    cv::Point pt2(m_detectedLine[2] + roi.x, m_detectedLine[3] + roi.y);
-    cv::line(m_lineImage, pt1, pt2, cv::Scalar(0, 0, 255), 2); // 红色，线宽2
+    // 计算指针角度（相对于圆心）
+    cv::circle(m_lineImage, m_circleCenter, 5, cv::Scalar(0, 255, 0), -1); // -1表示填充
+    cv::Point2i p1(m_detectedLine[0], m_detectedLine[1]);
+    cv::Point2i p2(m_detectedLine[2], m_detectedLine[3]);
+
+    // 取直线距圆心较远点作为指针末端
+    double dist1 = norm(p1 - m_circleCenter);
+    double dist2 = norm(p2 - m_circleCenter);
+    pointerTip = (dist1 < dist2) ? p2 : p1;
+    cv::line(m_lineImage, m_circleCenter, pointerTip, cv::Scalar(0, 0, 255), 4); // 红色，线宽2
+
 }
-
-void ImageProcessor::setHoughLinesParams(int rho,double theta,int threshold,int minLineLength, int maxLineGap)
+void ImageProcessor::setHoughLinesParams(double rho,double theta,int threshold,double minLineLength, double maxLineGap)
 {
     m_rho=rho;
     m_theta=theta;
     m_threshold=threshold;
     m_minLineLength = minLineLength;
     m_maxLineGap = maxLineGap;
-    if (!m_originalImage.empty())
-    {
-        detectLines();
-        analyzeGauge();
 
-        emit processingCompleted();
-    }
+    processAll();
 }
-
-
 
 
 // --------------------仪表分析--------------------
 void ImageProcessor::analyzeGauge()
 {
-    // 计算指针角度（相对于圆心）
-    cv::Point2f center(radius, radius); // ROI内的相对中心
-    cv::Point2f p1(m_detectedLine[0], m_detectedLine[1]);
-    cv::Point2f p2(m_detectedLine[2], m_detectedLine[3]);
+    // 计算角度
+    m_angle = -atan2(m_circleCenter.y - pointerTip.y, pointerTip.x - m_circleCenter.x) * 180 / CV_PI;
+    double adjustedAngle = (m_angle-m_gaugeMinValueAngle)/(m_gaugeMaxValueAngle-m_gaugeMinValueAngle);
+    double range = m_gaugeMaxValue - m_gaugeMinValue;
+    m_reading = adjustedAngle*range+m_gaugeMinValue;
 
-    // 确定哪个端点更接近圆心
-    double dist1 = norm(p1 - center);
-    double dist2 = norm(p2 - center);
-    cv::Point2f pointerTip = (dist1 < dist2) ? p2 : p1;
-
-    // 计算角度（0-360度，0点在右侧，顺时针增加）
-    double angle = atan2(center.y - pointerTip.y, pointerTip.x - center.x) * 180 / CV_PI;
-    if (angle < 0) angle += 360;
-
-    // 转换为实际读数
-    reading = calculateReading(angle, m_gaugeMinValue, m_gaugeMaxValue);
 }
-
-double ImageProcessor::calculateReading(double angle, double minValue, double maxValue)
+void ImageProcessor::setGaugeParams(double minValueAngle, double maxValueAngle,double minValue, double maxValue)
 {
-    // 假设0度在右侧，270度在顶部（模拟实际仪表）
-    // 调整角度起始位置
-    double adjustedAngle = fmod(angle + 270, 360);
-
-    // 将角度转换为读数
-    double range = maxValue - minValue;
-    double reading = (adjustedAngle / 360.0) * range + minValue;
-
-    return reading;
-}
-
-void ImageProcessor::setGaugeRange(double minValue, double maxValue)
-{
+    m_gaugeMinValueAngle=minValueAngle;
+    m_gaugeMaxValueAngle=maxValueAngle;
     m_gaugeMinValue = minValue;
     m_gaugeMaxValue = maxValue;
 
-    analyzeGauge();
-    emit processingCompleted();
+    processAll();
+}
+
+// --------------------最终结果绘制--------------------
+void ImageProcessor::Result()
+{
+    m_resultImage=m_perspectiveTransformResult.clone();
+    cv::line(m_resultImage, m_circleCenter, pointerTip, cv::Scalar(0, 0, 255), 5); // 红色，线宽2
 }
 
