@@ -18,12 +18,16 @@ RC_ICONS = img/instrument.ico
 
 SOURCES += \
     ImageProcessor.cpp \
+    ImgLoader.cpp \
+    IndicatorDetector.cpp \
     main.cpp \
     pixelviewerwidget.cpp \
     widget.cpp
 
 HEADERS += \
     ImageProcessor.h \
+    ImgLoader.h \
+    IndicatorDetector.h \
     pixelviewerwidget.h \
     widget.h
 
