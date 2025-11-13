@@ -107,21 +107,29 @@ void ImgLoader::updataPerspectiveTransform()
         // 检查源图像和变换点是否有效
         if (rois[i].image.empty() || rois[i].transformPoints.size() != 4){continue;}
 
-        // 定义目标图像的四个点（假设我们希望将图像变换为矩形）
-        std::vector<cv::Point2f> dstPoints;
-        float width = rois[i].rect.width;
-        float height = rois[i].rect.height;
+        if(rois[i].type==ROIType::METER)
+        {
+            // 定义目标图像的四个点（假设我们希望将图像变换为矩形）
+            std::vector<cv::Point2f> dstPoints;
+            float width = rois[i].rect.width;
+            float height = rois[i].rect.height;
 
-        dstPoints.push_back(cv::Point2f(0, 0));
-        dstPoints.push_back(cv::Point2f(width, 0));
-        dstPoints.push_back(cv::Point2f(width, height));
-        dstPoints.push_back(cv::Point2f(0, height));
+            dstPoints.push_back(cv::Point2f(0, 0));
+            dstPoints.push_back(cv::Point2f(width, 0));
+            dstPoints.push_back(cv::Point2f(width, height));
+            dstPoints.push_back(cv::Point2f(0, height));
 
-        // 计算透视变换矩阵
-        cv::Mat transformMatrix = cv::getPerspectiveTransform(rois[i].transformPoints, dstPoints);
+            // 计算透视变换矩阵
+            cv::Mat transformMatrix = cv::getPerspectiveTransform(rois[i].transformPoints, dstPoints);
 
-        // 应用透视变换
-        cv::warpPerspective(rois[i].image, rois[i].transformedImage, transformMatrix,cv::Size(width, height));
+            // 应用透视变换
+            cv::warpPerspective(rois[i].image, rois[i].transformedImage, transformMatrix,cv::Size(width, height));
+        }
+        else
+        {
+            rois[i].transformedImage=rois[i].image;
+        }
+
     }
 }
 

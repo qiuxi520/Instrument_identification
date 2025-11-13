@@ -12,6 +12,12 @@
 #include "ImgLoader.h"
 #include "imageprocessor.h"
 
+#include "IndicatorDetector.h"
+#include "YoloDetector.h"
+
+#include <QDateTime>
+#include <QDir>
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class Widget;
@@ -34,18 +40,16 @@ private slots:
     void on_btn_openPic_clicked();
     void onProcessingCompleted();
     void onErrorOccurred(const QString &errorMessage);
-
     void on_sb_step_valueChanged(int arg1);
-
     void on_sb_ROIx_valueChanged(int arg1);
-
     void on_sb_ROIy_valueChanged(int arg1);
-
     void on_sb_ROIwidth_valueChanged(int arg1);
-
     void on_sb_ROIheight_valueChanged(int arg1);
-
     void on_cmb_ROIslt_currentIndexChanged(int index);
+    void on_cmb_streamSlt_currentIndexChanged(int index);
+    void on_dsb_scale_valueChanged(double arg1);
+
+    void on_btn_saveframe_clicked();
 
 private:
     void imgLoaderInit();
@@ -57,10 +61,23 @@ private:
     ImgLoader *ImgLoader;
     QTimer *timer;
     cv::Mat frame;
+    cv::Mat fileImg;
     cv::VideoCapture cap;
 
     QString path = QCoreApplication::applicationDirPath();          //获取源文件路径
     QSettings *m_iniFile = new QSettings(path + "../../../settings.ini", QSettings::IniFormat);  //保存.ini路径
+    int streamIdx=0;
+    double scaleFactor = 1.0;
 
+    IndicatorDetector indicatorDetector;
+    IndicatorResult indicatorResult[18]={};
+
+    // 创建检测器
+    YoloDetector Yolodetector;
+    // 初始化
+    std::string modelPath = "D:/cppProject/yolo/yolov8n320.onnx";
+    std::string txtPath = "D:/cppProject/yolo/classes.txt";
+    bool useGPU = false;
+    std::vector<DetectionResult> yoloResults;
 };
 #endif // WIDGET_H

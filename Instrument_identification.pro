@@ -20,16 +20,20 @@ SOURCES += \
     ImageProcessor.cpp \
     ImgLoader.cpp \
     IndicatorDetector.cpp \
+    YoloDetector.cpp \
     main.cpp \
     pixelviewerwidget.cpp \
-    widget.cpp
+    widget.cpp \
+    yoloInference.cpp
 
 HEADERS += \
     ImageProcessor.h \
     ImgLoader.h \
     IndicatorDetector.h \
+    YoloDetector.h \
     pixelviewerwidget.h \
-    widget.h
+    widget.h \
+    yoloInference.h
 
 FORMS += \
     widget.ui

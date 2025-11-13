@@ -1,5 +1,5 @@
 #include "widget.h"
-
+#include <QList>
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Widget)
@@ -19,6 +19,8 @@ Widget::Widget(QWidget *parent)
 
     // 打开默认摄像头（摄像头索引通常为0）
     cap.open(0);
+
+    fileImg=cv::imread("D:/PhD/8-aircraft/code/saveFrame/on.jpg");
 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Widget::getFrame);
@@ -50,9 +52,35 @@ Widget::Widget(QWidget *parent)
     ui->cmb_ROIslt->addItem("灯18");
     ui->cmb_ROIslt->addItem("开关");
 
+
+    ui->cmb_streamSlt->addItem("转速表");
+    ui->cmb_streamSlt->addItem("温度表");
+    ui->cmb_streamSlt->addItem("燃油表");
+    ui->cmb_streamSlt->addItem("电压表");
+    ui->cmb_streamSlt->addItem("灯1");
+    ui->cmb_streamSlt->addItem("灯2");
+    ui->cmb_streamSlt->addItem("灯3");
+    ui->cmb_streamSlt->addItem("灯4");
+    ui->cmb_streamSlt->addItem("灯5");
+    ui->cmb_streamSlt->addItem("灯6");
+    ui->cmb_streamSlt->addItem("灯7");
+    ui->cmb_streamSlt->addItem("灯8");
+    ui->cmb_streamSlt->addItem("灯9");
+    ui->cmb_streamSlt->addItem("灯10");
+    ui->cmb_streamSlt->addItem("灯11");
+    ui->cmb_streamSlt->addItem("灯12");
+    ui->cmb_streamSlt->addItem("灯13");
+    ui->cmb_streamSlt->addItem("灯14");
+    ui->cmb_streamSlt->addItem("灯15");
+    ui->cmb_streamSlt->addItem("灯16");
+    ui->cmb_streamSlt->addItem("灯17");
+    ui->cmb_streamSlt->addItem("灯18");
+    ui->cmb_streamSlt->addItem("开关");
+
+
     imgLoaderInit();
 
-    qDebug()<<path;
+    Yolodetector.initialize(modelPath, cv::Size(320, 320), txtPath, useGPU);
 }
 
 Widget::~Widget()
@@ -97,6 +125,10 @@ void Widget::spinBoxInit()
     ui->sb_ROIy->setRange(1, 480);
     ui->sb_ROIwidth->setRange(1, 640);
     ui->sb_ROIheight->setRange(1, 480);
+
+    ui->dsb_scale->setRange(0.5, 5);
+    ui->dsb_scale->setSingleStep(0.5);
+    ui->dsb_scale->setValue(1);
 }
 
 void Widget::getFrame()
@@ -107,28 +139,48 @@ void Widget::getFrame()
     // 检查帧是否为空
     if (frame.empty())
     {
-        qDebug() << "无法获取帧";
+        // qDebug() << "无法获取帧";
     }
-    ImgLoader->loadImage(frame);
+    else
+        ImgLoader->loadImage(frame);
+
+
+    if (fileImg.empty())
+        ImgLoader->loadImage(cv::Mat());
+    else
+        ImgLoader->loadImage(fileImg);
+
 
     //--------------------------处理逻辑--------------------------
-
-
     // ImgLoader->getImage(SPEEDMETER);
     // ImgLoader->getImage(TEMPMETER);
     // ImgLoader->getImage(OILMETER);
     // ImgLoader->getImage(VOLMETER);
 
+    // 指示灯检测
+    for (int i = 0; i < 18; i++)
+    {
+        if(i<6 || (i>=10 && i<14))
+            indicatorResult[i]=indicatorDetector.detect(ImgLoader->getImage(i+4),"red");
 
-    // ImgLoader->getImage(INDICATOR1);
-    // ImgLoader->getImage(INDICATOR2);
-    // ImgLoader->getImage(INDICATOR3);
-    // ImgLoader->getImage(INDICATOR4);
-    // ImgLoader->getImage(INDICATOR5);
-    // ImgLoader->getImage(INDICATOR6);
+        if((i>=6 && i<10) || (i>=14 && i<16))
+            indicatorResult[i]=indicatorDetector.detect(ImgLoader->getImage(i+4),"green");
 
+        if(i>=16)
+            indicatorResult[i]=indicatorDetector.detect(ImgLoader->getImage(i+4),"yellow");
+    }
 
-    // ImgLoader->getImage(SWITCH1);
+    // 开关检测
+    // yoloResults = Yolodetector.detect(frame);
+    // yoloResults = Yolodetector.detect(fileImg);
+    // qDebug() << "检测到" << yoloResults.size() << "个目标";
+    // for (const auto& result : yoloResults)
+    // {
+    //     qDebug() << "Class:" << QString::fromStdString(result.className)
+    //             << "Confidence:" << result.confidence
+    //             << "Box:" << result.box.x << result.box.y
+    //             << result.box.width << result.box.height;
+    // }
 
     //--------------------------处理逻辑--------------------------
     updateDisplay();
@@ -160,11 +212,11 @@ void Widget::on_btn_openPic_clicked()
 
     if (!fileName.isEmpty())
     {
+        fileImg=cv::imread(fileName.toStdString());
+        // if (m_imageProcessor->loadImage(fileName))
+        // {
 
-        if (m_imageProcessor->loadImage(fileName))
-        {
-
-        }
+        // }
     }
 }
 
@@ -180,22 +232,40 @@ void Widget::updateDisplay()
     ui->pixelViewer_7->setImage(ImgLoader->getImage(INDICATOR2));
     ui->pixelViewer_8->setImage(ImgLoader->getImage(INDICATOR3));
     ui->pixelViewer_9->setImage(ImgLoader->getImage(INDICATOR4));
-    ui->pixelViewer_10->setImage(ImgLoader->getImage(INDICATOR5));
-    ui->pixelViewer_11->setImage(ImgLoader->getImage(INDICATOR6));
-    ui->pixelViewer_12->setImage(ImgLoader->getImage(SWITCH1));
 
-    // ui->pixelViewer_1->setImage(m_imageProcessor->getOriginalImage());
-    // ui->pixelViewer_2->setImage(m_imageProcessor->getROIImage());
-    // ui->pixelViewer_3->setImage(m_imageProcessor->getPerspectiveTransformRange());
-    // ui->pixelViewer_4->setImage(m_imageProcessor->getPerspectiveTransformResult());
-    // ui->pixelViewer_5->setImage(m_imageProcessor->getGrayImage());
-    // ui->pixelViewer_6->setImage(m_imageProcessor->getBlurredImage());
-    // ui->pixelViewer_7->setImage(m_imageProcessor->getEdgesImage());
-    // ui->pixelViewer_8->setImage(m_imageProcessor->getCirclesImage());
-    // ui->pixelViewer_9->setImage(m_imageProcessor->getMaskROIImage());
-    // ui->pixelViewer_10->setImage(m_imageProcessor->getThresholdImage());
-    // ui->pixelViewer_11->setImage(m_imageProcessor->getErosionImage());
-    // ui->pixelViewer_12->setImage(m_imageProcessor->getmorphologyOperationImage());
+    // 使用OpenCV进行缩放
+    cv::Mat resizedMat;
+    cv::resize(ImgLoader->getImage(streamIdx), resizedMat, cv::Size(), scaleFactor, scaleFactor, cv::INTER_LINEAR);
+    ui->pixelViewer_10->setImage(resizedMat);
+
+
+
+    ui->led_indicator1->setText(QString::number(indicatorResult[0].isOn));
+    ui->led_indicator2->setText(QString::number(indicatorResult[1].isOn));
+    ui->led_indicator3->setText(QString::number(indicatorResult[2].isOn));
+    ui->led_indicator4->setText(QString::number(indicatorResult[3].isOn));
+    ui->led_indicator5->setText(QString::number(indicatorResult[4].isOn));
+    ui->led_indicator6->setText(QString::number(indicatorResult[5].isOn));
+    ui->led_indicator7->setText(QString::number(indicatorResult[6].isOn));
+    ui->led_indicator8->setText(QString::number(indicatorResult[7].isOn));
+    ui->led_indicator9->setText(QString::number(indicatorResult[8].isOn));
+    ui->led_indicator10->setText(QString::number(indicatorResult[9].isOn));
+    ui->led_indicator11->setText(QString::number(indicatorResult[10].isOn));
+    ui->led_indicator12->setText(QString::number(indicatorResult[11].isOn));
+    ui->led_indicator13->setText(QString::number(indicatorResult[12].isOn));
+    ui->led_indicator14->setText(QString::number(indicatorResult[13].isOn));
+    ui->led_indicator15->setText(QString::number(indicatorResult[14].isOn));
+    ui->led_indicator16->setText(QString::number(indicatorResult[15].isOn));
+    ui->led_indicator17->setText(QString::number(indicatorResult[16].isOn));
+    ui->led_indicator18->setText(QString::number(indicatorResult[17].isOn));
+
+
+    if(yoloResults.size()>=1)
+        ui->led_switch1->setText(QString::fromStdString(yoloResults[0].className));
+
+
+
+
 }
 
 void Widget::on_cmb_ROIslt_currentIndexChanged(int index)
@@ -220,7 +290,6 @@ void Widget::on_sb_ROIx_valueChanged(int arg1)
 {
     int currentIndex = ui->cmb_ROIslt->currentIndex();
     ImgLoader->setROIParams(currentIndex,cv::Rect(arg1, ui->sb_ROIy->value(), ui->sb_ROIwidth->value(), ui->sb_ROIheight->value()));
-    //写入ini
     saveParam2Ini(currentIndex,"ROIx",QString::number(arg1));
 }
 void Widget::on_sb_ROIy_valueChanged(int arg1)
@@ -320,3 +389,34 @@ QVector<int> Widget::getParamFromIni(int idx)
 }
 
 
+
+void Widget::on_cmb_streamSlt_currentIndexChanged(int index)
+{
+    streamIdx=index;
+}
+
+
+void Widget::on_dsb_scale_valueChanged(double arg1)
+{
+    scaleFactor=arg1;
+}
+
+
+void Widget::on_btn_saveframe_clicked()
+{
+    // 设置固定保存路径
+    QString savePath = "D:/PhD/8-aircraft/code/saveFrame/";
+
+
+    // 确保目录存在
+    QDir dir(savePath);
+    if (!dir.exists()) {
+        dir.mkpath(".");
+    }
+
+    // 生成带时间戳的文件名
+    QString timestamp = QDateTime::currentDateTime().toString("yyyyMMdd_hhmmss_zzz");
+    QString filename = savePath + "frame_" + timestamp + ".jpg";
+
+    cv::imwrite(filename.toStdString(), frame);
+}

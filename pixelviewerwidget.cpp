@@ -562,13 +562,38 @@ void PixelViewerWidget::setDragEnabled(bool enabled)
     m_imageLabel->setDragEnabled(enabled);  // 传递给图像标签
 }
 
+// void PixelViewerWidget::onPixelInfoUpdated(int x, int y, const QColor &color, const QPoint &imagePos)
+// {
+//     if (m_showPixelInfo && x >= 0 && y >= 0) {
+//         QString info = QString("坐标: (%1, %2) | RGB: (%3, %4, %5) | 十六进制: %6")
+//                           .arg(x).arg(y)
+//                           .arg(color.red()).arg(color.green()).arg(color.blue())
+//                           .arg(color.name().toUpper());
+//         m_statusLabel->setText(info);
+
+//         emit pixelHovered(x, y, color);
+//     } else if (m_showPixelInfo) {
+//         m_statusLabel->setText("就绪");
+//     }
+// }
 void PixelViewerWidget::onPixelInfoUpdated(int x, int y, const QColor &color, const QPoint &imagePos)
 {
     if (m_showPixelInfo && x >= 0 && y >= 0) {
-        QString info = QString("坐标: (%1, %2) | RGB: (%3, %4, %5) | 十六进制: %6")
-                          .arg(x).arg(y)
-                          .arg(color.red()).arg(color.green()).arg(color.blue())
-                          .arg(color.name().toUpper());
+        // 将 RGB 转换为 HSV（归一化到 0-1 范围）
+        QColor hsvColor = color.toHsv();
+
+        // 转换为与 IndicatorDetector 相同的 HSV 格式（0-1 范围）
+        float h = hsvColor.hueF();        // 色调 [0.0, 1.0]
+        float s = hsvColor.saturationF(); // 饱和度 [0.0, 1.0]
+        float v = hsvColor.valueF();      // 明度 [0.0, 1.0]
+
+        QString info = QString("坐标: (%1, %2) | RGB: (%3, %4, %5) | 十六进制: %6 | HSV: (%7, %8, %9)")
+                           .arg(x).arg(y)
+                           .arg(color.red()).arg(color.green()).arg(color.blue())
+                           .arg(color.name().toUpper())
+                           .arg(h, 0, 'f', 3)  // 保留3位小数
+                           .arg(s, 0, 'f', 3)
+                           .arg(v, 0, 'f', 3);
         m_statusLabel->setText(info);
 
         emit pixelHovered(x, y, color);

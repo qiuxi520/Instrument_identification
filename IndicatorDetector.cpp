@@ -55,32 +55,80 @@ IndicatorDetector::HSVRange IndicatorDetector::getColorRange(const QString& colo
     HSVRange range;
     QString colorLower = color.toLower();
 
+    // if (colorLower == "red") {
+    //     // 红色在色调环的两端
+    //     range.hMin1 = 0.95; range.hMax1 = 1.0;
+    //     range.sMin1 = 0.5; range.sMax1 = 1.0;
+    //     range.vMin1 = 0.3; range.vMax1 = 1.0;
+    //     range.hMin2 = 0.0; range.hMax2 = 0.05;
+    //     range.sMin2 = 0.3; range.sMax2 = 1.0;
+    //     range.vMin2 = 0.5; range.vMax2 = 1.0;
+    // }
+    // if (colorLower == "red") {
+    //     // 扩展红色范围以包含 (0.100,0.020,1.000)
+    //     range.hMin1 = 0.95; range.hMax1 = 1.0;
+    //     range.sMin1 = 0.5; range.sMax1 = 1.0;
+    //     range.vMin1 = 0.3; range.vMax1 = 1.0;
+
+    //     // 扩展第二个范围以包含新样本
+    //     range.hMin2 = 0.0; range.hMax2 = 0.12;      // 从0.05→0.12，包含0.100
+    //     range.sMin2 = 0.01; range.sMax2 = 1.0;      // 从0.3→0.01，包含0.020
+    //     range.vMin2 = 0.5; range.vMax2 = 1.0;       // 1.000已在范围内
+    // }
+
     if (colorLower == "red") {
-        // 红色在色调环的两端
-        range.hMin1 = 0.95; range.hMax1 = 1.0;
-        range.sMin1 = 0.5; range.sMax1 = 1.0;
-        range.vMin1 = 0.3; range.vMax1 = 1.0;
-        range.hMin2 = 0.0; range.hMax2 = 0.05;
-        range.sMin2 = 0.3; range.sMax2 = 1.0;
-        range.vMin2 = 0.5; range.vMax2 = 1.0;
+        // 基于数据分析的优化红色范围
+        range.hMin1 = 0.874; range.hMax1 = 1.000;
+        range.sMin1 = 0.525; range.sMax1 = 0.955;
+        range.vMin1 = 0.502; range.vMax1 = 0.976;
+
+        range.hMin2 = 0.00; range.hMax2 = 0.10;
+        range.sMin2 = 0.525; range.sMax2 = 0.955;
+        range.vMin2 = 0.502; range.vMax2 = 0.976;
     }
+    // else if (colorLower == "green") {
+    //     // 绿色范围
+    //     range.hMin1 = 0.25; range.hMax1 = 0.45;
+    //     range.sMin1 = 0.5; range.sMax1 = 1.0;
+    //     range.vMin1 = 0.2; range.vMax1 = 1.0;
+    //     range.hMin2 = 0.20; range.hMax2 = 0.50;
+    //     range.sMin2 = 0.4; range.sMax2 = 1.0;
+    //     range.vMin2 = 0.4; range.vMax2 = 1.0;
+    // }
+
+    // else if (colorLower == "green") {
+    //     // 扩展绿色范围以包含低饱和度、高亮度的"亮起状态"
+    //     range.hMin1 = 0.15; range.hMax1 = 0.50;      // 扩大色调范围
+    //     range.sMin1 = 0.02; range.sMax1 = 1.0;       // 大幅降低饱和度下限到0.02
+    //     range.vMin1 = 0.9; range.vMax1 = 1.0;        // 只检测高亮度区域
+
+    //     range.hMin2 = 0.15; range.hMax2 = 0.50;
+    //     range.sMin2 = 0.02; range.sMax2 = 1.0;
+    //     range.vMin2 = 0.9; range.vMax2 = 1.0;
+    // }
+
     else if (colorLower == "green") {
-        // 绿色范围
-        range.hMin1 = 0.25; range.hMax1 = 0.45;
-        range.sMin1 = 0.5; range.sMax1 = 1.0;
-        range.vMin1 = 0.2; range.vMax1 = 1.0;
-        range.hMin2 = 0.20; range.hMax2 = 0.50;
-        range.sMin2 = 0.4; range.sMax2 = 1.0;
-        range.vMin2 = 0.4; range.vMax2 = 1.0;
+        // 扩展绿色范围以包含两种亮起状态：
+        // (0.188,0.032,0.988) - 低饱和度、高亮度
+        // (0.314,0.291,0.459) - 中饱和度、中亮度
+
+        range.hMin1 = 0.15; range.hMax1 = 0.50;      // 色调范围保持不变
+        range.sMin1 = 0.02; range.sMax1 = 0.30;      // 饱和度上限从1.0→0.30，包含0.291
+        range.vMin1 = 0.4;  range.vMax1 = 1.0;       // 明度下限从0.9→0.4，包含0.459
+
+        range.hMin2 = 0.15; range.hMax2 = 0.50;
+        range.sMin2 = 0.02; range.sMax2 = 0.30;
+        range.vMin2 = 0.4;  range.vMax2 = 1.0;
     }
+
     else if (colorLower == "blue") {
-        // 蓝色范围
-        range.hMin1 = 0.55; range.hMax1 = 0.75;
+        // 黄色范围（替换原来的蓝色范围）
+        range.hMin1 = 0.12; range.hMax1 = 0.18;
         range.sMin1 = 0.5; range.sMax1 = 1.0;
-        range.vMin1 = 0.3; range.vMax1 = 1.0;
-        range.hMin2 = 0.50; range.hMax2 = 0.80;
+        range.vMin1 = 0.4; range.vMax1 = 1.0;
+        range.hMin2 = 0.10; range.hMax2 = 0.20;
         range.sMin2 = 0.4; range.sMax2 = 1.0;
-        range.vMin2 = 0.4; range.vMax2 = 1.0;
+        range.vMin2 = 0.3; range.vMax2 = 1.0;
     }
     else {
         // 默认使用红色范围
