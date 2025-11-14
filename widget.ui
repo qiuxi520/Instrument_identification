@@ -7,438 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>1280</width>
-    <height>966</height>
+    <height>640</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Widget</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" columnstretch="2,2,2,2,1">
-   <item row="0" column="0" rowspan="2" colspan="2">
+  <layout class="QGridLayout" name="gridLayout_5" rowstretch="3,0,0">
+   <item row="0" column="0">
     <widget class="QGroupBox" name="groupBox_1">
      <property name="title">
       <string>(1)原图</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout_53">
-      <item row="0" column="0" colspan="2">
-       <widget class="PixelViewerWidget" name="pixelViewer_1" native="true"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="1" column="2">
-    <widget class="QGroupBox" name="groupBox_4">
-     <property name="title">
-      <string>(4)燃油表</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_51">
-      <item row="0" column="0">
-       <widget class="PixelViewerWidget" name="pixelViewer_4" native="true"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="1" column="3">
-    <widget class="QGroupBox" name="groupBox_5">
-     <property name="title">
-      <string>(5)电压表</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_50">
-      <item row="0" column="1">
-       <widget class="PixelViewerWidget" name="pixelViewer_5" native="true"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="0" column="4" rowspan="4">
-    <widget class="QGroupBox" name="groupBox_panel">
-     <property name="styleSheet">
-      <string notr="true">   QWidget#groupBox_panel {
-background-color: rgba(240, 240, 240, 240);
-
-
-}</string>
-     </property>
-     <property name="title">
-      <string>控制面板</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_2" rowstretch="2,6,1,1,0,0">
-      <item row="4" column="0">
-       <widget class="QGroupBox" name="groupBox_23">
-        <property name="title">
-         <string>开关状态</string>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_5">
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_23">
-           <property name="text">
-            <string>拨杆位置：</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="led_switch1"/>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QGroupBox" name="groupBox_25">
-        <property name="title">
-         <string>指示灯状态</string>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_4">
-         <item row="15" column="1">
-          <widget class="QLineEdit" name="led_indicator16"/>
-         </item>
-         <item row="17" column="1">
-          <widget class="QLineEdit" name="led_indicator18"/>
-         </item>
-         <item row="13" column="1">
-          <widget class="QLineEdit" name="led_indicator14"/>
-         </item>
-         <item row="6" column="0">
-          <widget class="QLabel" name="label_11">
-           <property name="text">
-            <string>第2油箱：</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_6">
-           <property name="text">
-            <string>右断开点火：</string>
-           </property>
-          </widget>
-         </item>
-         <item row="17" column="0">
-          <widget class="QLabel" name="label_22">
-           <property name="text">
-            <string>右黄：</string>
-           </property>
-          </widget>
-         </item>
-         <item row="12" column="1">
-          <widget class="QLineEdit" name="led_indicator13"/>
-         </item>
-         <item row="9" column="0">
-          <widget class="QLabel" name="label_14">
-           <property name="text">
-            <string>右绿：</string>
-           </property>
-          </widget>
-         </item>
-         <item row="13" column="0">
-          <widget class="QLabel" name="label_18">
-           <property name="text">
-            <string>右下红：</string>
-           </property>
-          </widget>
-         </item>
-         <item row="11" column="1">
-          <widget class="QLineEdit" name="led_indicator12"/>
-         </item>
-         <item row="5" column="1">
-          <widget class="QLineEdit" name="led_indicator6"/>
-         </item>
-         <item row="14" column="0">
-          <widget class="QLabel" name="label_19">
-           <property name="text">
-            <string>发动机最大左：</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_5">
-           <property name="text">
-            <string>左断开点火：</string>
-           </property>
-          </widget>
-         </item>
-         <item row="10" column="1">
-          <widget class="QLineEdit" name="led_indicator11"/>
-         </item>
-         <item row="16" column="1">
-          <widget class="QLineEdit" name="led_indicator17"/>
-         </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="label_8">
-           <property name="text">
-            <string>铅2：</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="0">
-          <widget class="QLabel" name="label_9">
-           <property name="text">
-            <string>液压：</string>
-           </property>
-          </widget>
-         </item>
-         <item row="9" column="1">
-          <widget class="QLineEdit" name="led_indicator10"/>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="led_indicator1"/>
-         </item>
-         <item row="12" column="0">
-          <widget class="QLabel" name="label_17">
-           <property name="text">
-            <string>左下红：</string>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="1">
-          <widget class="QLineEdit" name="led_indicator7"/>
-         </item>
-         <item row="15" column="0">
-          <widget class="QLabel" name="label_20">
-           <property name="text">
-            <string>发动机最大右：</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1">
-          <widget class="QLineEdit" name="led_indicator4"/>
-         </item>
-         <item row="10" column="0">
-          <widget class="QLabel" name="label_15">
-           <property name="text">
-            <string>左上红：</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QLineEdit" name="led_indicator3"/>
-         </item>
-         <item row="16" column="0">
-          <widget class="QLabel" name="label_21">
-           <property name="text">
-            <string>左黄：</string>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="0">
-          <widget class="QLabel" name="label_10">
-           <property name="text">
-            <string>无伞：</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_7">
-           <property name="text">
-            <string>铅1：</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="1">
-          <widget class="QLineEdit" name="led_indicator5"/>
-         </item>
-         <item row="8" column="1">
-          <widget class="QLineEdit" name="led_indicator9"/>
-         </item>
-         <item row="8" column="0">
-          <widget class="QLabel" name="label_13">
-           <property name="text">
-            <string>左绿：</string>
-           </property>
-          </widget>
-         </item>
-         <item row="14" column="1">
-          <widget class="QLineEdit" name="led_indicator15"/>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLineEdit" name="led_indicator2"/>
-         </item>
-         <item row="7" column="0">
-          <widget class="QLabel" name="label_12">
-           <property name="text">
-            <string>第3第4油箱：</string>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="1">
-          <widget class="QLineEdit" name="led_indicator8"/>
-         </item>
-         <item row="11" column="0">
-          <widget class="QLabel" name="label_16">
-           <property name="text">
-            <string>右上红：</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QPushButton" name="btn_openPic">
-        <property name="text">
-         <string>打开图像</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QGroupBox" name="groupBox_28">
-        <property name="title">
-         <string>ROI位置选择</string>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_6" columnstretch="1,1,1,1">
-         <item row="0" column="0" colspan="2">
-          <widget class="QComboBox" name="cmb_ROIslt"/>
-         </item>
-         <item row="0" column="2">
-          <widget class="QLabel" name="label_30">
-           <property name="layoutDirection">
-            <enum>Qt::RightToLeft</enum>
-           </property>
-           <property name="text">
-            <string>Step:</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="3">
-          <widget class="QSpinBox" name="sb_step"/>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_26">
-           <property name="layoutDirection">
-            <enum>Qt::RightToLeft</enum>
-           </property>
-           <property name="text">
-            <string>x:</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QSpinBox" name="sb_ROIx"/>
-         </item>
-         <item row="1" column="2">
-          <widget class="QLabel" name="label_27">
-           <property name="layoutDirection">
-            <enum>Qt::RightToLeft</enum>
-           </property>
-           <property name="text">
-            <string>y:</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="3">
-          <widget class="QSpinBox" name="sb_ROIy"/>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_28">
-           <property name="layoutDirection">
-            <enum>Qt::RightToLeft</enum>
-           </property>
-           <property name="text">
-            <string>width:</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QSpinBox" name="sb_ROIwidth"/>
-         </item>
-         <item row="2" column="2">
-          <widget class="QLabel" name="label_29">
-           <property name="layoutDirection">
-            <enum>Qt::RightToLeft</enum>
-           </property>
-           <property name="text">
-            <string>height:</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="3">
-          <widget class="QSpinBox" name="sb_ROIheight"/>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QGroupBox" name="groupBox">
-        <property name="title">
-         <string>仪表读数</string>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_3">
-         <item row="0" column="0">
-          <widget class="QLabel" name="label">
-           <property name="text">
-            <string>左转速表：</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_2">
-           <property name="text">
-            <string>右转速表：</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
-          <widget class="QLineEdit" name="lineEdit"/>
-         </item>
-         <item row="3" column="2">
-          <widget class="QLineEdit" name="lineEdit_3"/>
-         </item>
-         <item row="4" column="0">
-          <widget class="QLabel" name="label_4">
-           <property name="text">
-            <string>右温度表：</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="2">
-          <widget class="QLineEdit" name="lineEdit_2"/>
-         </item>
-         <item row="4" column="2">
-          <widget class="QLineEdit" name="lineEdit_4"/>
-         </item>
-         <item row="5" column="0">
-          <widget class="QLabel" name="label_24">
-           <property name="text">
-            <string>燃油表：</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="label_3">
-           <property name="text">
-            <string>左温度表：</string>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="0">
-          <widget class="QLabel" name="label_25">
-           <property name="text">
-            <string>电压表：</string>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="2">
-          <widget class="QLineEdit" name="lineEdit_24"/>
-         </item>
-         <item row="6" column="2">
-          <widget class="QLineEdit" name="lineEdit_25"/>
-         </item>
-        </layout>
-       </widget>
-      </item>
+     <layout class="QGridLayout" name="gridLayout_4">
       <item row="1" column="0">
        <widget class="QPushButton" name="btn_saveframe">
         <property name="text">
@@ -446,97 +27,32 @@ background-color: rgba(240, 240, 240, 240);
         </property>
        </widget>
       </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="0" column="3">
-    <widget class="QGroupBox" name="groupBox_3">
-     <property name="title">
-      <string>(3)温度表</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_49">
-      <item row="0" column="1">
-       <widget class="PixelViewerWidget" name="pixelViewer_3" native="true"/>
+      <item row="1" column="1">
+       <widget class="QPushButton" name="btn_openPic">
+        <property name="text">
+         <string>打开图像</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="2">
+       <widget class="PixelViewerWidget" name="pixelViewer_1" native="true"/>
       </item>
      </layout>
     </widget>
    </item>
-   <item row="0" column="2">
+   <item row="0" column="1">
     <widget class="QGroupBox" name="groupBox_2">
-     <property name="title">
-      <string>(2)转速表</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_64">
-      <item row="0" column="0">
-       <widget class="PixelViewerWidget" name="pixelViewer_2" native="true"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="3" column="2">
-    <widget class="QGroupBox" name="groupBox_8">
-     <property name="title">
-      <string>(8)指示灯3</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_63">
-      <item row="0" column="0" colspan="2">
-       <widget class="PixelViewerWidget" name="pixelViewer_8" native="true"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="3" column="3">
-    <widget class="QGroupBox" name="groupBox_9">
-     <property name="title">
-      <string>(9)指示灯4</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_55">
-      <item row="0" column="0" colspan="2">
-       <widget class="PixelViewerWidget" name="pixelViewer_9" native="true"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="2" column="3">
-    <widget class="QGroupBox" name="groupBox_7">
-     <property name="title">
-      <string>(7)指示灯2</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_54">
-      <item row="0" column="0" colspan="2">
-       <widget class="PixelViewerWidget" name="pixelViewer_7" native="true"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="2" column="2">
-    <widget class="QGroupBox" name="groupBox_6">
-     <property name="title">
-      <string>(6)指示灯1</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_52">
-      <item row="0" column="0" colspan="2">
-       <widget class="PixelViewerWidget" name="pixelViewer_6" native="true"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="2" column="0" rowspan="2" colspan="2">
-    <widget class="QGroupBox" name="groupBox_10">
      <property name="title">
       <string>(10)test</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_65">
-      <item row="1" column="2">
-       <widget class="QDoubleSpinBox" name="dsb_scale"/>
-      </item>
-      <item row="0" column="0" colspan="3">
-       <widget class="PixelViewerWidget" name="pixelViewer_10" native="true"/>
+      <item row="0" column="0" colspan="4">
+       <widget class="PixelViewerWidget" name="pixelViewer_2" native="true"/>
       </item>
       <item row="1" column="0">
        <widget class="QComboBox" name="cmb_streamSlt"/>
       </item>
-      <item row="1" column="1">
+      <item row="1" column="2">
        <widget class="QLabel" name="label_31">
         <property name="text">
          <string>缩放倍数：</string>
@@ -546,7 +62,956 @@ background-color: rgba(240, 240, 240, 240);
         </property>
        </widget>
       </item>
+      <item row="1" column="3">
+       <widget class="QDoubleSpinBox" name="dsb_scale"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="cmb_maskSlt"/>
+      </item>
      </layout>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2">
+    <widget class="QGroupBox" name="groupBox_25">
+     <property name="title">
+      <string>指示灯状态</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>(1)左断开点火：</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="led_indicator1"/>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>(2)右断开点火：</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QLineEdit" name="led_indicator2"/>
+      </item>
+      <item row="0" column="4">
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>(3)铅1：</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="5">
+       <widget class="QLineEdit" name="led_indicator3"/>
+      </item>
+      <item row="0" column="6">
+       <widget class="QLabel" name="label_8">
+        <property name="text">
+         <string>(4)铅2：</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="7">
+       <widget class="QLineEdit" name="led_indicator4"/>
+      </item>
+      <item row="0" column="8">
+       <widget class="QLabel" name="label_9">
+        <property name="text">
+         <string>(5)液压：</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="9">
+       <widget class="QLineEdit" name="led_indicator5"/>
+      </item>
+      <item row="0" column="10">
+       <widget class="QLabel" name="label_10">
+        <property name="text">
+         <string>(6)无伞：</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="11">
+       <widget class="QLineEdit" name="led_indicator6"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_11">
+        <property name="text">
+         <string>(7)第2油箱：</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="led_indicator7"/>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="label_12">
+        <property name="text">
+         <string>(8)第3第4油箱：</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QLineEdit" name="led_indicator8"/>
+      </item>
+      <item row="1" column="4">
+       <widget class="QLabel" name="label_13">
+        <property name="text">
+         <string>(9)左绿：</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="5">
+       <widget class="QLineEdit" name="led_indicator9"/>
+      </item>
+      <item row="1" column="6">
+       <widget class="QLabel" name="label_14">
+        <property name="text">
+         <string>(10)右绿：</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="7">
+       <widget class="QLineEdit" name="led_indicator10"/>
+      </item>
+      <item row="1" column="8">
+       <widget class="QLabel" name="label_15">
+        <property name="text">
+         <string>(11)左上红：</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="9">
+       <widget class="QLineEdit" name="led_indicator11"/>
+      </item>
+      <item row="1" column="10">
+       <widget class="QLabel" name="label_16">
+        <property name="text">
+         <string>(12)右上红：</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="11">
+       <widget class="QLineEdit" name="led_indicator12"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_17">
+        <property name="text">
+         <string>(13)左下红：</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="led_indicator13"/>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLabel" name="label_18">
+        <property name="text">
+         <string>(14)右下红：</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QLineEdit" name="led_indicator14"/>
+      </item>
+      <item row="2" column="4">
+       <widget class="QLabel" name="label_19">
+        <property name="text">
+         <string>(15)发动机最大左：</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="5">
+       <widget class="QLineEdit" name="led_indicator15"/>
+      </item>
+      <item row="2" column="6">
+       <widget class="QLabel" name="label_20">
+        <property name="text">
+         <string>(16)发动机最大右：</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="7">
+       <widget class="QLineEdit" name="led_indicator16"/>
+      </item>
+      <item row="2" column="8">
+       <widget class="QLabel" name="label_21">
+        <property name="text">
+         <string>(17)左黄：</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="9">
+       <widget class="QLineEdit" name="led_indicator17"/>
+      </item>
+      <item row="2" column="10">
+       <widget class="QLabel" name="label_22">
+        <property name="text">
+         <string>(18)右黄：</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="11">
+       <widget class="QLineEdit" name="led_indicator18"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="currentIndex">
+      <number>4</number>
+     </property>
+     <widget class="QWidget" name="tab">
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <attribute name="title">
+       <string>ROI位置选择</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_7">
+       <item row="0" column="0">
+        <widget class="QGroupBox" name="groupBox_28">
+         <property name="title">
+          <string>ROI位置选择</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_2" rowstretch="0,0,0" columnstretch="1,1,1,1,1,1">
+          <item row="2" column="1">
+           <widget class="QLabel" name="label_28">
+            <property name="layoutDirection">
+             <enum>Qt::RightToLeft</enum>
+            </property>
+            <property name="text">
+             <string>width:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="4">
+           <widget class="QSpinBox" name="sb_ROIheight"/>
+          </item>
+          <item row="1" column="4">
+           <widget class="QSpinBox" name="sb_ROIy"/>
+          </item>
+          <item row="1" column="5">
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="0" column="3">
+           <widget class="QLabel" name="label_30">
+            <property name="layoutDirection">
+             <enum>Qt::RightToLeft</enum>
+            </property>
+            <property name="text">
+             <string>Step:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" colspan="2">
+           <widget class="QComboBox" name="cmb_ROIslt"/>
+          </item>
+          <item row="0" column="4">
+           <widget class="QSpinBox" name="sb_step"/>
+          </item>
+          <item row="1" column="3">
+           <widget class="QLabel" name="label_27">
+            <property name="layoutDirection">
+             <enum>Qt::RightToLeft</enum>
+            </property>
+            <property name="text">
+             <string>y:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QSpinBox" name="sb_ROIwidth"/>
+          </item>
+          <item row="1" column="0">
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="2">
+           <widget class="QSpinBox" name="sb_ROIx"/>
+          </item>
+          <item row="2" column="3">
+           <widget class="QLabel" name="label_29">
+            <property name="layoutDirection">
+             <enum>Qt::RightToLeft</enum>
+            </property>
+            <property name="text">
+             <string>height:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLabel" name="label_26">
+            <property name="layoutDirection">
+             <enum>Qt::RightToLeft</enum>
+            </property>
+            <property name="text">
+             <string>x:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_2">
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <attribute name="title">
+       <string>阈值</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_9">
+       <item row="0" column="0">
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>310</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="label_61">
+         <property name="text">
+          <string>检测阈值：</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QDoubleSpinBox" name="dsb_dectThreshold">
+         <property name="decimals">
+          <number>3</number>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <spacer name="horizontalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>311</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="4">
+        <widget class="QLabel" name="label_62">
+         <property name="text">
+          <string>置信度缩放因子：</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="5">
+        <widget class="QDoubleSpinBox" name="dsb_confidenceScale"/>
+       </item>
+       <item row="0" column="6">
+        <spacer name="horizontalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>310</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_3">
+      <attribute name="title">
+       <string>红色</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>hMin1:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QDoubleSpinBox" name="dsb_hMin1R"/>
+       </item>
+       <item row="0" column="2">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>hMax1:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QDoubleSpinBox" name="dsb_hMax1R"/>
+       </item>
+       <item row="0" column="4">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>sMin1:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="5">
+        <widget class="QDoubleSpinBox" name="dsb_sMin1R"/>
+       </item>
+       <item row="0" column="6">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>sMax1:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="7">
+        <widget class="QDoubleSpinBox" name="dsb_sMax1R"/>
+       </item>
+       <item row="0" column="8">
+        <widget class="QLabel" name="label_23">
+         <property name="text">
+          <string>vMin1:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="9">
+        <widget class="QDoubleSpinBox" name="dsb_vMin1R"/>
+       </item>
+       <item row="0" column="10">
+        <widget class="QLabel" name="label_24">
+         <property name="text">
+          <string>vMax1:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="11">
+        <widget class="QDoubleSpinBox" name="dsb_vMax1R"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_25">
+         <property name="text">
+          <string>hMin2:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QDoubleSpinBox" name="dsb_hMin2R"/>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLabel" name="label_32">
+         <property name="text">
+          <string>hMax2:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
+        <widget class="QDoubleSpinBox" name="dsb_hMax2R"/>
+       </item>
+       <item row="1" column="4">
+        <widget class="QLabel" name="label_33">
+         <property name="text">
+          <string>sMin2:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="5">
+        <widget class="QDoubleSpinBox" name="dsb_sMin2R"/>
+       </item>
+       <item row="1" column="6">
+        <widget class="QLabel" name="label_34">
+         <property name="text">
+          <string>sMax2:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="7">
+        <widget class="QDoubleSpinBox" name="dsb_sMax2R"/>
+       </item>
+       <item row="1" column="8">
+        <widget class="QLabel" name="label_35">
+         <property name="text">
+          <string>vMin2:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="9">
+        <widget class="QDoubleSpinBox" name="dsb_vMin2R"/>
+       </item>
+       <item row="1" column="10">
+        <widget class="QLabel" name="label_36">
+         <property name="text">
+          <string>vMax2:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="11">
+        <widget class="QDoubleSpinBox" name="dsb_vMax2R"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_4">
+      <attribute name="title">
+       <string>绿色</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_8">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_47">
+         <property name="text">
+          <string>hMin1:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QDoubleSpinBox" name="dsb_hMin1G"/>
+       </item>
+       <item row="0" column="2">
+        <widget class="QLabel" name="label_38">
+         <property name="text">
+          <string>hMax1:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QDoubleSpinBox" name="dsb_hMax1G"/>
+       </item>
+       <item row="0" column="4">
+        <widget class="QLabel" name="label_44">
+         <property name="text">
+          <string>sMin1:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="5">
+        <widget class="QDoubleSpinBox" name="dsb_sMin1G"/>
+       </item>
+       <item row="0" column="6">
+        <widget class="QLabel" name="label_42">
+         <property name="text">
+          <string>sMax1:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="7">
+        <widget class="QDoubleSpinBox" name="dsb_sMax1G"/>
+       </item>
+       <item row="0" column="8">
+        <widget class="QLabel" name="label_41">
+         <property name="text">
+          <string>vMin1:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="9">
+        <widget class="QDoubleSpinBox" name="dsb_vMin1G"/>
+       </item>
+       <item row="0" column="10">
+        <widget class="QLabel" name="label_48">
+         <property name="text">
+          <string>vMax1:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="11">
+        <widget class="QDoubleSpinBox" name="dsb_vMax1G"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_43">
+         <property name="text">
+          <string>hMin2:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QDoubleSpinBox" name="dsb_hMin2G"/>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLabel" name="label_39">
+         <property name="text">
+          <string>hMax2:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
+        <widget class="QDoubleSpinBox" name="dsb_hMax2G"/>
+       </item>
+       <item row="1" column="4">
+        <widget class="QLabel" name="label_37">
+         <property name="text">
+          <string>sMin2:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="5">
+        <widget class="QDoubleSpinBox" name="dsb_sMin2G"/>
+       </item>
+       <item row="1" column="6">
+        <widget class="QLabel" name="label_40">
+         <property name="text">
+          <string>sMax2:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="7">
+        <widget class="QDoubleSpinBox" name="dsb_sMax2G"/>
+       </item>
+       <item row="1" column="8">
+        <widget class="QLabel" name="label_46">
+         <property name="text">
+          <string>vMin2:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="9">
+        <widget class="QDoubleSpinBox" name="dsb_vMin2G"/>
+       </item>
+       <item row="1" column="10">
+        <widget class="QLabel" name="label_45">
+         <property name="text">
+          <string>vMax2:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="11">
+        <widget class="QDoubleSpinBox" name="dsb_vMax2G"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_5">
+      <attribute name="title">
+       <string>黄色</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_6">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_59">
+         <property name="text">
+          <string>hMin1:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QDoubleSpinBox" name="dsb_hMin1Y"/>
+       </item>
+       <item row="0" column="2">
+        <widget class="QLabel" name="label_50">
+         <property name="text">
+          <string>hMax1:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QDoubleSpinBox" name="dsb_hMax1Y"/>
+       </item>
+       <item row="0" column="4">
+        <widget class="QLabel" name="label_56">
+         <property name="text">
+          <string>sMin1:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="5">
+        <widget class="QDoubleSpinBox" name="dsb_sMin1Y"/>
+       </item>
+       <item row="0" column="6">
+        <widget class="QLabel" name="label_54">
+         <property name="text">
+          <string>sMax1:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="7">
+        <widget class="QDoubleSpinBox" name="dsb_sMax1Y"/>
+       </item>
+       <item row="0" column="8">
+        <widget class="QLabel" name="label_53">
+         <property name="text">
+          <string>vMin1:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="9">
+        <widget class="QDoubleSpinBox" name="dsb_vMin1Y"/>
+       </item>
+       <item row="0" column="10">
+        <widget class="QLabel" name="label_60">
+         <property name="text">
+          <string>vMax1:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="11">
+        <widget class="QDoubleSpinBox" name="dsb_vMax1Y"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_55">
+         <property name="text">
+          <string>hMin2:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QDoubleSpinBox" name="dsb_hMin2Y"/>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLabel" name="label_51">
+         <property name="text">
+          <string>hMax2:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
+        <widget class="QDoubleSpinBox" name="dsb_hMax2Y"/>
+       </item>
+       <item row="1" column="4">
+        <widget class="QLabel" name="label_49">
+         <property name="text">
+          <string>sMin2:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="5">
+        <widget class="QDoubleSpinBox" name="dsb_sMin2Y"/>
+       </item>
+       <item row="1" column="6">
+        <widget class="QLabel" name="label_52">
+         <property name="text">
+          <string>sMax2:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="7">
+        <widget class="QDoubleSpinBox" name="dsb_sMax2Y"/>
+       </item>
+       <item row="1" column="8">
+        <widget class="QLabel" name="label_58">
+         <property name="text">
+          <string>vMin2:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="9">
+        <widget class="QDoubleSpinBox" name="dsb_vMin2Y"/>
+       </item>
+       <item row="1" column="10">
+        <widget class="QLabel" name="label_57">
+         <property name="text">
+          <string>vMax2:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="11">
+        <widget class="QDoubleSpinBox" name="dsb_vMax2Y"/>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
   </layout>

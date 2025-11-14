@@ -17,23 +17,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 RC_ICONS = img/instrument.ico
 
 SOURCES += \
-    ImageProcessor.cpp \
     ImgLoader.cpp \
     IndicatorDetector.cpp \
-    YoloDetector.cpp \
     main.cpp \
     pixelviewerwidget.cpp \
-    widget.cpp \
-    yoloInference.cpp
+    widget.cpp
 
 HEADERS += \
-    ImageProcessor.h \
     ImgLoader.h \
     IndicatorDetector.h \
-    YoloDetector.h \
     pixelviewerwidget.h \
-    widget.h \
-    yoloInference.h
+    widget.h
 
 FORMS += \
     widget.ui

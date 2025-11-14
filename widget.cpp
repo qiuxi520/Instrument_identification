@@ -3,13 +3,11 @@
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Widget)
-    , m_imageProcessor(new ImageProcessor(this))
     , ImgLoader(new class ImgLoader(this))
 {
     ui->setupUi(this);
 
     setWindowTitle("仪表识别");
-    setupConnections();
 
     this->setAutoFillBackground(true);
     QPixmap pixMap(":/img/bg.jpg");
@@ -77,10 +75,13 @@ Widget::Widget(QWidget *parent)
     ui->cmb_streamSlt->addItem("灯18");
     ui->cmb_streamSlt->addItem("开关");
 
+    ui->cmb_maskSlt->addItem("ROI");
+    ui->cmb_maskSlt->addItem("colorMask");
+    ui->cmb_maskSlt->addItem("processedMask");
+
 
     imgLoaderInit();
 
-    Yolodetector.initialize(modelPath, cv::Size(320, 320), txtPath, useGPU);
 }
 
 Widget::~Widget()
@@ -129,6 +130,70 @@ void Widget::spinBoxInit()
     ui->dsb_scale->setRange(0.5, 5);
     ui->dsb_scale->setSingleStep(0.5);
     ui->dsb_scale->setValue(1);
+
+
+    ui->dsb_dectThreshold->setRange(0.001,0.1);
+    ui->dsb_dectThreshold->setSingleStep(0.001);
+    ui->dsb_dectThreshold->setValue(0.0001);
+
+    ui->dsb_confidenceScale->setRange(50,150);
+    ui->dsb_confidenceScale->setSingleStep(1);
+    ui->dsb_confidenceScale->setValue(100);
+    // 定义颜色后缀和控件名称映射
+    QString colorSuffixes[] = {"R", "G", "Y"};
+    QString paramNames[] = {"hMin1", "hMax1", "sMin1", "sMax1", "vMin1", "vMax1",
+                            "hMin2", "hMax2", "sMin2", "sMax2", "vMin2", "vMax2"};
+
+    // 批量设置范围和步长
+    for (const QString& color : colorSuffixes)
+    {
+        for (const QString& param : paramNames)
+        {
+            QString controlName = QString("dsb_%1%2").arg(param).arg(color);
+            QDoubleSpinBox* spinBox = findChild<QDoubleSpinBox*>(controlName);
+            if (spinBox)
+            {
+                spinBox->setRange(0, 1);
+                spinBox->setSingleStep(0.01);
+            }
+        }
+    }
+
+
+    // 定义颜色范围结构体数组
+    struct ColorRange {
+        const char* suffix;
+        double hMin1, hMax1, sMin1, sMax1, vMin1, vMax1;
+        double hMin2, hMax2, sMin2, sMax2, vMin2, vMax2;
+    };
+
+    ColorRange colorRanges[] = {
+        {"R", 0.874, 1.000, 0.525, 0.955, 0.502, 0.976, 0.00, 0.10, 0.525, 0.955, 0.502, 0.976},
+        {"G", 0.15, 0.50, 0.02, 0.30, 0.4, 1.0, 0.15, 0.50, 0.02, 0.30, 0.4, 1.0},
+        {"Y", 0.12, 0.18, 0.5, 1.0, 0.4, 1.0, 0.10, 0.20, 0.4, 1.0, 0.3, 1.0}
+    };
+
+    // 批量设置初始值
+    for (const auto& range : colorRanges)
+    {
+        QString suffix = range.suffix;
+
+        // 第一组参数
+        ui->tabWidget->findChild<QDoubleSpinBox*>(QString("dsb_hMin1%1").arg(suffix))->setValue(range.hMin1);
+        ui->tabWidget->findChild<QDoubleSpinBox*>(QString("dsb_hMax1%1").arg(suffix))->setValue(range.hMax1);
+        ui->tabWidget->findChild<QDoubleSpinBox*>(QString("dsb_sMin1%1").arg(suffix))->setValue(range.sMin1);
+        ui->tabWidget->findChild<QDoubleSpinBox*>(QString("dsb_sMax1%1").arg(suffix))->setValue(range.sMax1);
+        ui->tabWidget->findChild<QDoubleSpinBox*>(QString("dsb_vMin1%1").arg(suffix))->setValue(range.vMin1);
+        ui->tabWidget->findChild<QDoubleSpinBox*>(QString("dsb_vMax1%1").arg(suffix))->setValue(range.vMax1);
+
+        // 第二组参数
+        ui->tabWidget->findChild<QDoubleSpinBox*>(QString("dsb_hMin2%1").arg(suffix))->setValue(range.hMin2);
+        ui->tabWidget->findChild<QDoubleSpinBox*>(QString("dsb_hMax2%1").arg(suffix))->setValue(range.hMax2);
+        ui->tabWidget->findChild<QDoubleSpinBox*>(QString("dsb_sMin2%1").arg(suffix))->setValue(range.sMin2);
+        ui->tabWidget->findChild<QDoubleSpinBox*>(QString("dsb_sMax2%1").arg(suffix))->setValue(range.sMax2);
+        ui->tabWidget->findChild<QDoubleSpinBox*>(QString("dsb_vMin2%1").arg(suffix))->setValue(range.vMin2);
+        ui->tabWidget->findChild<QDoubleSpinBox*>(QString("dsb_vMax2%1").arg(suffix))->setValue(range.vMax2);
+    }
 }
 
 void Widget::getFrame()
@@ -188,13 +253,6 @@ void Widget::getFrame()
 }
 
 
-
-
-void Widget::setupConnections()
-{
-    connect(m_imageProcessor, &ImageProcessor::processingCompleted,this, &Widget::onProcessingCompleted);
-    connect(m_imageProcessor, &ImageProcessor::errorOccurred,this, &Widget::onErrorOccurred);
-}
 void Widget::onProcessingCompleted()
 {
     updateDisplay();
@@ -224,19 +282,31 @@ void Widget::on_btn_openPic_clicked()
 void Widget::updateDisplay()
 {
     ui->pixelViewer_1->setImage(ImgLoader->getOriginalWithROIsImage());
-    ui->pixelViewer_2->setImage(ImgLoader->getImage(SPEEDMETER));
-    ui->pixelViewer_3->setImage(ImgLoader->getImage(TEMPMETER));
-    ui->pixelViewer_4->setImage(ImgLoader->getImage(OILMETER));
-    ui->pixelViewer_5->setImage(ImgLoader->getImage(VOLMETER));
-    ui->pixelViewer_6->setImage(ImgLoader->getImage(INDICATOR1));
-    ui->pixelViewer_7->setImage(ImgLoader->getImage(INDICATOR2));
-    ui->pixelViewer_8->setImage(ImgLoader->getImage(INDICATOR3));
-    ui->pixelViewer_9->setImage(ImgLoader->getImage(INDICATOR4));
 
-    // 使用OpenCV进行缩放
     cv::Mat resizedMat;
-    cv::resize(ImgLoader->getImage(streamIdx), resizedMat, cv::Size(), scaleFactor, scaleFactor, cv::INTER_LINEAR);
-    ui->pixelViewer_10->setImage(resizedMat);
+    if(maskIdx==0)
+    {
+        cv::resize(ImgLoader->getImage(streamIdx), resizedMat, cv::Size(), scaleFactor, scaleFactor, cv::INTER_LINEAR);
+        ui->pixelViewer_2->setImage(resizedMat);
+    }
+
+    if(maskIdx==1)
+    {
+        cv::resize(indicatorResult[streamIdx].colorMask, resizedMat, cv::Size(), scaleFactor, scaleFactor, cv::INTER_LINEAR);
+        ui->pixelViewer_2->setImage(resizedMat);
+
+    }
+
+    if(maskIdx==2)
+    {
+        cv::resize(indicatorResult[streamIdx].processedMask, resizedMat, cv::Size(), scaleFactor, scaleFactor, cv::INTER_LINEAR);
+        ui->pixelViewer_2->setImage(resizedMat);
+
+    }
+
+
+
+
 
 
 
@@ -258,12 +328,6 @@ void Widget::updateDisplay()
     ui->led_indicator16->setText(QString::number(indicatorResult[15].isOn));
     ui->led_indicator17->setText(QString::number(indicatorResult[16].isOn));
     ui->led_indicator18->setText(QString::number(indicatorResult[17].isOn));
-
-
-    if(yoloResults.size()>=1)
-        ui->led_switch1->setText(QString::fromStdString(yoloResults[0].className));
-
-
 
 
 }
@@ -401,18 +465,20 @@ void Widget::on_dsb_scale_valueChanged(double arg1)
     scaleFactor=arg1;
 }
 
+void Widget::on_cmb_maskSlt_currentIndexChanged(int index)
+{
+    maskIdx=index;
+}
+
 
 void Widget::on_btn_saveframe_clicked()
 {
     // 设置固定保存路径
     QString savePath = "D:/PhD/8-aircraft/code/saveFrame/";
 
-
     // 确保目录存在
     QDir dir(savePath);
-    if (!dir.exists()) {
-        dir.mkpath(".");
-    }
+    if (!dir.exists()) {dir.mkpath(".");}
 
     // 生成带时间戳的文件名
     QString timestamp = QDateTime::currentDateTime().toString("yyyyMMdd_hhmmss_zzz");
@@ -420,3 +486,61 @@ void Widget::on_btn_saveframe_clicked()
 
     cv::imwrite(filename.toStdString(), frame);
 }
+
+void Widget::on_dsb_dectThreshold_valueChanged(double arg1)
+{
+    indicatorDetector.setDetectionThreshold(arg1);
+}
+
+
+void Widget::on_dsb_confidenceScale_valueChanged(double arg1)
+{
+    indicatorDetector.setConfidenceScale(arg1);
+}
+
+
+void Widget::on_dsb_hMin1R_valueChanged(double arg1){indicatorDetector.redRange.hMin1=arg1;}
+void Widget::on_dsb_hMax1R_valueChanged(double arg1){indicatorDetector.redRange.hMax1=arg1;}
+void Widget::on_dsb_sMin1R_valueChanged(double arg1){indicatorDetector.redRange.sMin1=arg1;}
+void Widget::on_dsb_sMax1R_valueChanged(double arg1){indicatorDetector.redRange.sMax1=arg1;}
+void Widget::on_dsb_vMin1R_valueChanged(double arg1){indicatorDetector.redRange.vMin1=arg1;}
+void Widget::on_dsb_vMax1R_valueChanged(double arg1){indicatorDetector.redRange.vMax1=arg1;}
+void Widget::on_dsb_hMin2R_valueChanged(double arg1){indicatorDetector.redRange.hMin2=arg1;}
+void Widget::on_dsb_hMax2R_valueChanged(double arg1){indicatorDetector.redRange.hMax2=arg1;}
+void Widget::on_dsb_sMin2R_valueChanged(double arg1){indicatorDetector.redRange.sMin2=arg1;}
+void Widget::on_dsb_sMax2R_valueChanged(double arg1){indicatorDetector.redRange.sMax2=arg1;}
+void Widget::on_dsb_vMin2R_valueChanged(double arg1){indicatorDetector.redRange.vMin2=arg1;}
+void Widget::on_dsb_vMax2R_valueChanged(double arg1){indicatorDetector.redRange.vMax2=arg1;}
+
+
+void Widget::on_dsb_hMin1G_valueChanged(double arg1){indicatorDetector.greenRange.hMin1=arg1;}
+void Widget::on_dsb_hMax1G_valueChanged(double arg1){indicatorDetector.greenRange.hMax1=arg1;}
+void Widget::on_dsb_sMin1G_valueChanged(double arg1){indicatorDetector.greenRange.sMin1=arg1;}
+void Widget::on_dsb_sMax1G_valueChanged(double arg1){indicatorDetector.greenRange.sMax1=arg1;}
+void Widget::on_dsb_vMin1G_valueChanged(double arg1){indicatorDetector.greenRange.vMin1=arg1;}
+void Widget::on_dsb_vMax1G_valueChanged(double arg1){indicatorDetector.greenRange.vMax1=arg1;}
+void Widget::on_dsb_hMin2G_valueChanged(double arg1){indicatorDetector.greenRange.hMin2=arg1;}
+void Widget::on_dsb_hMax2G_valueChanged(double arg1){indicatorDetector.greenRange.hMax2=arg1;}
+void Widget::on_dsb_sMin2G_valueChanged(double arg1){indicatorDetector.greenRange.sMin2=arg1;}
+void Widget::on_dsb_sMax2G_valueChanged(double arg1){indicatorDetector.greenRange.sMax2=arg1;}
+void Widget::on_dsb_vMin2G_valueChanged(double arg1){indicatorDetector.greenRange.vMin2=arg1;}
+void Widget::on_dsb_vMax2G_valueChanged(double arg1){indicatorDetector.greenRange.vMax2=arg1;}
+
+
+void Widget::on_dsb_hMin1Y_valueChanged(double arg1){indicatorDetector.yellowRange.hMin1=arg1;}
+void Widget::on_dsb_hMax1Y_valueChanged(double arg1){indicatorDetector.yellowRange.hMax1=arg1;}
+void Widget::on_dsb_sMin1Y_valueChanged(double arg1){indicatorDetector.yellowRange.sMin1=arg1;}
+void Widget::on_dsb_sMax1Y_valueChanged(double arg1){indicatorDetector.yellowRange.sMax1=arg1;}
+void Widget::on_dsb_vMin1Y_valueChanged(double arg1){indicatorDetector.yellowRange.vMin1=arg1;}
+void Widget::on_dsb_vMax1Y_valueChanged(double arg1){indicatorDetector.yellowRange.vMax1=arg1;}
+void Widget::on_dsb_hMin2Y_valueChanged(double arg1){indicatorDetector.yellowRange.hMin2=arg1;}
+void Widget::on_dsb_hMax2Y_valueChanged(double arg1){indicatorDetector.yellowRange.hMax2=arg1;}
+void Widget::on_dsb_sMin2Y_valueChanged(double arg1){indicatorDetector.yellowRange.sMin2=arg1;}
+void Widget::on_dsb_sMax2Y_valueChanged(double arg1){indicatorDetector.yellowRange.sMax2=arg1;}
+void Widget::on_dsb_vMin2Y_valueChanged(double arg1){indicatorDetector.yellowRange.vMin2=arg1;}
+void Widget::on_dsb_vMax2Y_valueChanged(double arg1){indicatorDetector.yellowRange.vMax2=arg1;}
+
+
+
+
+

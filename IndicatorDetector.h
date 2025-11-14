@@ -8,7 +8,9 @@
 struct IndicatorResult {
     bool isOn;          // 指示灯是否亮起
     double confidence;  // 置信度 (0-1)
+
     cv::Mat colorMask;  // 颜色掩码图像
+    cv::Mat processedMask;
     QString color;      // 检测的颜色
     double regionRatio; // 颜色区域比例
 };
@@ -29,7 +31,13 @@ public:
     void setConfidenceScale(double scale) { m_confidenceScale = scale; }
     double getConfidenceScale() const { return m_confidenceScale; }
 
-private:
+    void setRRangeParam(double hMin1,double hMax1,double sMin1,double sMax1,double vMin1,double vMax1,
+                        double hMin2,double hMax2,double sMin2,double sMax2,double vMin2,double vMax2);
+    void setGRangeParam(double hMin1, double hMax1, double sMin1, double sMax1, double vMin1, double vMax1,
+                        double hMin2,double hMax2,double sMin2,double sMax2,double vMin2,double vMax2);
+    void setYRangeParam(double hMin1, double hMax1, double sMin1, double sMax1, double vMin1, double vMax1,
+                        double hMin2,double hMax2,double sMin2,double sMax2,double vMin2,double vMax2);
+
     // HSV颜色范围配置
     struct HSVRange {
         double hMin1, hMax1;  // 第一个色调范围
@@ -40,11 +48,19 @@ private:
         double vMin2, vMax2;  // 第二个亮度范围
     };
 
+    HSVRange redRange,greenRange,yellowRange;
+private:
+
+
+
+
+
     double m_threshold;       // 检测阈值
     double m_confidenceScale; // 置信度缩放因子
 
     // 获取对应颜色的HSV范围
     HSVRange getColorRange(const QString& color);
+    HSVRange getRGYRange(const QString& color);
 
     // 创建颜色掩码
     cv::Mat createColorMask(const cv::Mat& hsvImg, const HSVRange& range);

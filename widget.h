@@ -10,10 +10,10 @@
 
 #include "ui_widget.h"
 #include "ImgLoader.h"
-#include "imageprocessor.h"
+
 
 #include "IndicatorDetector.h"
-#include "YoloDetector.h"
+
 
 #include <QDateTime>
 #include <QDir>
@@ -51,13 +51,91 @@ private slots:
 
     void on_btn_saveframe_clicked();
 
+    void on_cmb_maskSlt_currentIndexChanged(int index);
+
+    void on_dsb_hMin1R_valueChanged(double arg1);
+
+    void on_dsb_hMax1R_valueChanged(double arg1);
+
+    void on_dsb_sMin1R_valueChanged(double arg1);
+
+    void on_dsb_sMax1R_valueChanged(double arg1);
+
+    void on_dsb_vMin1R_valueChanged(double arg1);
+
+    void on_dsb_vMax1R_valueChanged(double arg1);
+
+    void on_dsb_hMin2R_valueChanged(double arg1);
+
+    void on_dsb_hMax2R_valueChanged(double arg1);
+
+    void on_dsb_sMin2R_valueChanged(double arg1);
+
+    void on_dsb_sMax2R_valueChanged(double arg1);
+
+    void on_dsb_vMin2R_valueChanged(double arg1);
+
+    void on_dsb_vMax2R_valueChanged(double arg1);
+
+    void on_dsb_hMin1G_valueChanged(double arg1);
+
+    void on_dsb_hMax1G_valueChanged(double arg1);
+
+
+
+    void on_dsb_sMin1G_valueChanged(double arg1);
+
+    void on_dsb_sMax1G_valueChanged(double arg1);
+
+    void on_dsb_vMin1G_valueChanged(double arg1);
+
+    void on_dsb_vMax1G_valueChanged(double arg1);
+
+    void on_dsb_hMin2G_valueChanged(double arg1);
+
+    void on_dsb_hMax2G_valueChanged(double arg1);
+
+    void on_dsb_sMin2G_valueChanged(double arg1);
+
+    void on_dsb_sMax2G_valueChanged(double arg1);
+
+    void on_dsb_vMin2G_valueChanged(double arg1);
+
+    void on_dsb_vMax2G_valueChanged(double arg1);
+
+    void on_dsb_hMin1Y_valueChanged(double arg1);
+
+    void on_dsb_hMax1Y_valueChanged(double arg1);
+
+    void on_dsb_sMin1Y_valueChanged(double arg1);
+
+    void on_dsb_sMax1Y_valueChanged(double arg1);
+
+    void on_dsb_vMin1Y_valueChanged(double arg1);
+
+    void on_dsb_vMax1Y_valueChanged(double arg1);
+
+    void on_dsb_hMin2Y_valueChanged(double arg1);
+
+    void on_dsb_hMax2Y_valueChanged(double arg1);
+
+    void on_dsb_sMin2Y_valueChanged(double arg1);
+
+    void on_dsb_sMax2Y_valueChanged(double arg1);
+
+    void on_dsb_vMin2Y_valueChanged(double arg1);
+
+    void on_dsb_vMax2Y_valueChanged(double arg1);
+
+    void on_dsb_dectThreshold_valueChanged(double arg1);
+
+    void on_dsb_confidenceScale_valueChanged(double arg1);
+
 private:
     void imgLoaderInit();
-    void setupConnections();
     void updateDisplay();
 
     Ui::Widget *ui;
-    ImageProcessor *m_imageProcessor;
     ImgLoader *ImgLoader;
     QTimer *timer;
     cv::Mat frame;
@@ -67,17 +145,13 @@ private:
     QString path = QCoreApplication::applicationDirPath();          //获取源文件路径
     QSettings *m_iniFile = new QSettings(path + "../../../settings.ini", QSettings::IniFormat);  //保存.ini路径
     int streamIdx=0;
+    int maskIdx=0;
     double scaleFactor = 1.0;
 
     IndicatorDetector indicatorDetector;
     IndicatorResult indicatorResult[18]={};
 
-    // 创建检测器
-    YoloDetector Yolodetector;
-    // 初始化
-    std::string modelPath = "D:/cppProject/yolo/yolov8n320.onnx";
-    std::string txtPath = "D:/cppProject/yolo/classes.txt";
-    bool useGPU = false;
-    std::vector<DetectionResult> yoloResults;
+
+
 };
 #endif // WIDGET_H
