@@ -18,6 +18,7 @@
 #include <QDateTime>
 #include <QDir>
 
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class Widget;
@@ -131,6 +132,10 @@ private slots:
 
     void on_dsb_confidenceScale_valueChanged(double arg1);
 
+    void on_btn_previousImg_clicked();
+
+    void on_btn_nextImg_clicked();
+
 private:
     void imgLoaderInit();
     void updateDisplay();
@@ -152,6 +157,9 @@ private:
     IndicatorResult indicatorResult[18]={};
 
 
-
+QString directoryPath = "D:/PhD/8-aircraft/code/saveFrame";
+    QStringList jpgFiles;
+QStringList imageFiles;
+int currentImageIndex = -1;
 };
 #endif // WIDGET_H

@@ -20,6 +20,14 @@ Widget::Widget(QWidget *parent)
 
     fileImg=cv::imread("D:/PhD/8-aircraft/code/saveFrame/on.jpg");
 
+    QDir directory(directoryPath);
+    QStringList filters;
+    filters << "*.jpg" << "*.JPG" << "*.jpeg" << "*.JPEG";
+    jpgFiles = directory.entryList(filters, QDir::Files);
+    // 输出结果
+    // qDebug() << "找到" << jpgFiles.size() << "个 jpg 文件:";
+    // for (const QString& file : jpgFiles) {qDebug() << file;}
+
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Widget::getFrame);
     timer->start(50);  // 每50ms触发一次
@@ -127,9 +135,9 @@ void Widget::spinBoxInit()
     ui->sb_ROIwidth->setRange(1, 640);
     ui->sb_ROIheight->setRange(1, 480);
 
-    ui->dsb_scale->setRange(0.5, 5);
+    ui->dsb_scale->setRange(0.5, 10);
     ui->dsb_scale->setSingleStep(0.5);
-    ui->dsb_scale->setValue(1);
+    ui->dsb_scale->setValue(10);
 
 
     ui->dsb_dectThreshold->setRange(0.001,0.1);
@@ -169,8 +177,8 @@ void Widget::spinBoxInit()
 
     ColorRange colorRanges[] = {
         {"R", 0.874, 1.000, 0.525, 0.955, 0.502, 0.976, 0.00, 0.10, 0.525, 0.955, 0.502, 0.976},
-        {"G", 0.15, 0.50, 0.02, 0.30, 0.4, 1.0, 0.15, 0.50, 0.02, 0.30, 0.4, 1.0},
-        {"Y", 0.12, 0.18, 0.5, 1.0, 0.4, 1.0, 0.10, 0.20, 0.4, 1.0, 0.3, 1.0}
+        {"G", 0.15, 0.50, 0.3, 0.5, 0.15, 1.0, 0.15, 0.50, 0.3, 0.5, 0.15, 1.0},
+        {"Y", 0, 0.2, 0.3, 1.0, 0.8, 1.0, 0, 0.2, 0.3, 1.0, 0.8, 1.0}
     };
 
     // 批量设置初始值
@@ -262,7 +270,6 @@ void Widget::onErrorOccurred(const QString &errorMessage)
     QMessageBox::critical(this, "错误", errorMessage);
 }
 
-// 打开图像
 void Widget::on_btn_openPic_clicked()
 {
     QString fileDir = "..\\..\\pic";
@@ -290,23 +297,25 @@ void Widget::updateDisplay()
         ui->pixelViewer_2->setImage(resizedMat);
     }
 
-    if(maskIdx==1)
+    if(maskIdx==1 && streamIdx>=4 && streamIdx<=21)
     {
-        cv::resize(indicatorResult[streamIdx].colorMask, resizedMat, cv::Size(), scaleFactor, scaleFactor, cv::INTER_LINEAR);
+        cv::resize(indicatorResult[streamIdx-4].colorMask, resizedMat, cv::Size(), scaleFactor, scaleFactor, cv::INTER_LINEAR);
         ui->pixelViewer_2->setImage(resizedMat);
 
     }
 
-    if(maskIdx==2)
+    if(maskIdx==2 && streamIdx>=4 && streamIdx<=21)
     {
-        cv::resize(indicatorResult[streamIdx].processedMask, resizedMat, cv::Size(), scaleFactor, scaleFactor, cv::INTER_LINEAR);
+        cv::resize(indicatorResult[streamIdx-4].processedMask, resizedMat, cv::Size(), scaleFactor, scaleFactor, cv::INTER_LINEAR);
         ui->pixelViewer_2->setImage(resizedMat);
 
     }
 
-
-
-
+    if(streamIdx>=4 && streamIdx<=21)
+    {
+        ui->led_confidence->setText(QString::number(indicatorResult[streamIdx-4].confidence));
+        ui->led_regionRatio->setText(QString::number(indicatorResult[streamIdx-4].regionRatio));
+    }
 
 
 
@@ -452,19 +461,14 @@ QVector<int> Widget::getParamFromIni(int idx)
     return roiParams;
 }
 
-
-
 void Widget::on_cmb_streamSlt_currentIndexChanged(int index)
 {
     streamIdx=index;
 }
-
-
 void Widget::on_dsb_scale_valueChanged(double arg1)
 {
     scaleFactor=arg1;
 }
-
 void Widget::on_cmb_maskSlt_currentIndexChanged(int index)
 {
     maskIdx=index;
@@ -491,7 +495,6 @@ void Widget::on_dsb_dectThreshold_valueChanged(double arg1)
 {
     indicatorDetector.setDetectionThreshold(arg1);
 }
-
 
 void Widget::on_dsb_confidenceScale_valueChanged(double arg1)
 {
@@ -544,3 +547,55 @@ void Widget::on_dsb_vMax2Y_valueChanged(double arg1){indicatorDetector.yellowRan
 
 
 
+
+void Widget::on_btn_previousImg_clicked()
+{
+    if (imageFiles.isEmpty()) {
+        // 首次使用时加载图片列表
+        QDir directory("D:/PhD/8-aircraft/code/saveFrame");
+        QStringList filters = {"*.jpg", "*.JPG", "*.jpeg", "*.JPEG"};
+        QStringList files = directory.entryList(filters, QDir::Files);
+
+        for (const QString& file : files) {
+            imageFiles.append(directory.absoluteFilePath(file));
+        }
+        imageFiles.sort();
+
+        if (imageFiles.isEmpty()) return;
+        currentImageIndex = 0;
+    } else {
+        currentImageIndex--;
+        if (currentImageIndex < 0) {
+            currentImageIndex = imageFiles.size() - 1;
+        }
+    }
+
+    fileImg = cv::imread(imageFiles[currentImageIndex].toStdString());
+    // qDebug() << "切换到图片:" << imageFiles[currentImageIndex];
+}
+
+void Widget::on_btn_nextImg_clicked()
+{
+    if (imageFiles.isEmpty()) {
+        // 首次使用时加载图片列表
+        QDir directory("D:/PhD/8-aircraft/code/saveFrame");
+        QStringList filters = {"*.jpg", "*.JPG", "*.jpeg", "*.JPEG"};
+        QStringList files = directory.entryList(filters, QDir::Files);
+
+        for (const QString& file : files) {
+            imageFiles.append(directory.absoluteFilePath(file));
+        }
+        imageFiles.sort();
+
+        if (imageFiles.isEmpty()) return;
+        currentImageIndex = 0;
+    } else {
+        currentImageIndex++;
+        if (currentImageIndex >= imageFiles.size()) {
+            currentImageIndex = 0;
+        }
+    }
+
+    fileImg = cv::imread(imageFiles[currentImageIndex].toStdString());
+    // qDebug() << "切换到图片:" << imageFiles[currentImageIndex];
+}
